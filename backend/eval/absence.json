@@ -1,0 +1,1177 @@
+{
+ "test": "4E.2 out-of-sample impact prediction",
+ "n": 69,
+ "available": true,
+ "pearson_r": -0.0234,
+ "pearson_p": 0.8489,
+ "mae": 28.64,
+ "mae_always_zero": 27.92,
+ "beats_zero_forecaster": false,
+ "observed_sd": 35.61,
+ "k": 0.3,
+ "subsets": {
+  "full_match_absences (delete)": {
+   "n": 22,
+   "available": true,
+   "pearson_r": 0.279,
+   "pearson_p": 0.2085,
+   "mae": 14.4,
+   "mae_always_zero": 17.78,
+   "beats_zero_forecaster": true,
+   "observed_sd": 20.78
+  },
+  "substitution_windows (suppress k=0.3)": {
+   "n": 47,
+   "available": true,
+   "pearson_r": -0.0891,
+   "pearson_p": 0.5515,
+   "mae": 35.3,
+   "mae_always_zero": 32.67,
+   "beats_zero_forecaster": false,
+   "observed_sd": 40.19
+  }
+ },
+ "note": "pre-specified split: a full-match absence is simulated with delete, a substitution window with suppress; substitution windows are single 15-minute slices where M and D are small integers (high observed variance)",
+ "rows": [
+  {
+   "team": "Austria",
+   "match_id": 3938641,
+   "player": 11820,
+   "name": "Kevin Danso",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -0.53,
+   "observed_dC": 14.89
+  },
+  {
+   "team": "Austria",
+   "match_id": 3930180,
+   "player": 24977,
+   "name": "Christoph Baumgartner",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -8.45,
+   "observed_dC": -2.66
+  },
+  {
+   "team": "Belgium",
+   "match_id": 3938645,
+   "player": 16559,
+   "name": "Leandro Trossard",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -36.84,
+   "observed_dC": 44.74
+  },
+  {
+   "team": "Belgium",
+   "match_id": 3941019,
+   "player": 16559,
+   "name": "Leandro Trossard",
+   "full_match_absence": true,
+   "absent_minutes": 94.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -26.88,
+   "observed_dC": -51.34
+  },
+  {
+   "team": "Croatia",
+   "match_id": 3930160,
+   "player": 5463,
+   "name": "Luka Modri\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -7.02,
+   "observed_dC": 53.38
+  },
+  {
+   "team": "Croatia",
+   "match_id": 3930167,
+   "player": 5469,
+   "name": "Marcelo Brozovi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 54.0,
+   "windows": [
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -7.35,
+   "observed_dC": 59.41
+  },
+  {
+   "team": "Croatia",
+   "match_id": 3930167,
+   "player": 49337,
+   "name": "Josip Stani\u0161i\u0107",
+   "full_match_absence": true,
+   "absent_minutes": 99.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -7.39,
+   "observed_dC": 51.43
+  },
+  {
+   "team": "Croatia",
+   "match_id": 3930178,
+   "player": 28914,
+   "name": "Lovro Majer",
+   "full_match_absence": false,
+   "absent_minutes": 75.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -30.26,
+   "observed_dC": -29.51
+  },
+  {
+   "team": "Czech Republic",
+   "match_id": 3930166,
+   "player": 134272,
+   "name": "David Jur\u00e1sek",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -15.81,
+   "observed_dC": -29.11
+  },
+  {
+   "team": "Denmark",
+   "match_id": 3930162,
+   "player": 16554,
+   "name": "Joakim Maehle",
+   "full_match_absence": false,
+   "absent_minutes": 75.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -13.19,
+   "observed_dC": 33.91
+  },
+  {
+   "team": "Denmark",
+   "match_id": 3930171,
+   "player": 24547,
+   "name": "Alexander Bah",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -11.0,
+   "observed_dC": 55.01
+  },
+  {
+   "team": "Denmark",
+   "match_id": 3940983,
+   "player": 8621,
+   "name": "Morten Hjulmand",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -11.98,
+   "observed_dC": -24.11
+  },
+  {
+   "team": "England",
+   "match_id": 3930181,
+   "player": 22084,
+   "name": "Bukayo Saka",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 6,
+   "predicted_dC": -19.33,
+   "observed_dC": 91.0
+  },
+  {
+   "team": "France",
+   "match_id": 3930165,
+   "player": 10481,
+   "name": "Aur\u00e9lien Tchouam\u00e9ni",
+   "full_match_absence": true,
+   "absent_minutes": 100.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -17.77,
+   "observed_dC": 1.47
+  },
+  {
+   "team": "France",
+   "match_id": 3930173,
+   "player": 3009,
+   "name": "Kylian Mbapp\u00e9",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -21.4,
+   "observed_dC": -42.17
+  },
+  {
+   "team": "France",
+   "match_id": 3938643,
+   "player": 3961,
+   "name": "N'Golo Kant\u00e9",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -7.52,
+   "observed_dC": 14.77
+  },
+  {
+   "team": "France",
+   "match_id": 3942752,
+   "player": 3961,
+   "name": "N'Golo Kant\u00e9",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -7.52,
+   "observed_dC": -62.54
+  },
+  {
+   "team": "Georgia",
+   "match_id": 3938644,
+   "player": 264017,
+   "name": "Anzor Mekvabishvili",
+   "full_match_absence": false,
+   "absent_minutes": 75.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -7.53,
+   "observed_dC": -36.9
+  },
+  {
+   "team": "Germany",
+   "match_id": 3930168,
+   "player": 8966,
+   "name": "Kai Havertz",
+   "full_match_absence": false,
+   "absent_minutes": 34.0,
+   "windows": [
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -19.54,
+   "observed_dC": 23.59
+  },
+  {
+   "team": "Germany",
+   "match_id": 3930176,
+   "player": 12407,
+   "name": "Maximilian Mittelst\u00e4dt",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -9.09,
+   "observed_dC": -8.66
+  },
+  {
+   "team": "Germany",
+   "match_id": 3940983,
+   "player": 12407,
+   "name": "Maximilian Mittelst\u00e4dt",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -12.76,
+   "observed_dC": -11.92
+  },
+  {
+   "team": "Germany",
+   "match_id": 3940983,
+   "player": 40724,
+   "name": "Florian Wirtz",
+   "full_match_absence": false,
+   "absent_minutes": 75.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -28.09,
+   "observed_dC": -9.28
+  },
+  {
+   "team": "Germany",
+   "match_id": 3942226,
+   "player": 12407,
+   "name": "Maximilian Mittelst\u00e4dt",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -10.35,
+   "observed_dC": -38.28
+  },
+  {
+   "team": "Hungary",
+   "match_id": 3930177,
+   "player": 12921,
+   "name": "Barnab\u00e1s Varga",
+   "full_match_absence": false,
+   "absent_minutes": 27.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -28.46,
+   "observed_dC": 5.27
+  },
+  {
+   "team": "Italy",
+   "match_id": 3930172,
+   "player": 7024,
+   "name": "Jorginho",
+   "full_match_absence": false,
+   "absent_minutes": 52.0,
+   "windows": [
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -1.41,
+   "observed_dC": -19.92
+  },
+  {
+   "team": "Italy",
+   "match_id": 3940878,
+   "player": 7024,
+   "name": "Jorginho",
+   "full_match_absence": true,
+   "absent_minutes": 93.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -17.88,
+   "observed_dC": -17.22
+  },
+  {
+   "team": "Italy",
+   "match_id": 3940878,
+   "player": 41768,
+   "name": "Riccardo Calafiori",
+   "full_match_absence": true,
+   "absent_minutes": 93.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -12.83,
+   "observed_dC": -13.54
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3938637,
+   "player": 39167,
+   "name": "Xavi Simons",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -10.23,
+   "observed_dC": -8.09
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3930173,
+   "player": 15503,
+   "name": "Jerdy Schouten",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -9.58,
+   "observed_dC": -51.17
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3930180,
+   "player": 21582,
+   "name": "Tijjani Reijnders",
+   "full_match_absence": false,
+   "absent_minutes": 23.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -0.21,
+   "observed_dC": 34.94
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3930180,
+   "player": 8125,
+   "name": "Denzel Dumfries",
+   "full_match_absence": true,
+   "absent_minutes": 98.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -16.4,
+   "observed_dC": -5.58
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3930180,
+   "player": 39167,
+   "name": "Xavi Simons",
+   "full_match_absence": false,
+   "absent_minutes": 30.0,
+   "windows": [
+    "0-15",
+    "15-30"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -19.01,
+   "observed_dC": -23.61
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3941021,
+   "player": 15503,
+   "name": "Jerdy Schouten",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -9.58,
+   "observed_dC": 2.54
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3942382,
+   "player": 21582,
+   "name": "Tijjani Reijnders",
+   "full_match_absence": false,
+   "absent_minutes": 22.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -0.21,
+   "observed_dC": -25.84
+  },
+  {
+   "team": "Netherlands",
+   "match_id": 3942819,
+   "player": 2988,
+   "name": "Memphis Depay",
+   "full_match_absence": false,
+   "absent_minutes": 51.0,
+   "windows": [
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -17.95,
+   "observed_dC": 6.51
+  },
+  {
+   "team": "Poland",
+   "match_id": 3938637,
+   "player": 29480,
+   "name": "Jakub Moder",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -8.06,
+   "observed_dC": -27.47
+  },
+  {
+   "team": "Poland",
+   "match_id": 3938641,
+   "player": 29480,
+   "name": "Jakub Moder",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -8.06,
+   "observed_dC": -47.62
+  },
+  {
+   "team": "Portugal",
+   "match_id": 3938644,
+   "player": 5204,
+   "name": "Bruno Fernandes",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -17.2,
+   "observed_dC": -18.04
+  },
+  {
+   "team": "Portugal",
+   "match_id": 3938644,
+   "player": 3193,
+   "name": "Bernardo Silva",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -22.11,
+   "observed_dC": -13.34
+  },
+  {
+   "team": "Portugal",
+   "match_id": 3938644,
+   "player": 20016,
+   "name": "Pepe",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -15.02,
+   "observed_dC": -13.0
+  },
+  {
+   "team": "Portugal",
+   "match_id": 3938644,
+   "player": 5206,
+   "name": "R\u00faben Dias",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -18.12,
+   "observed_dC": -13.34
+  },
+  {
+   "team": "Portugal",
+   "match_id": 3942349,
+   "player": 5204,
+   "name": "Bruno Fernandes",
+   "full_match_absence": false,
+   "absent_minutes": 53.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -6.35,
+   "observed_dC": -32.99
+  },
+  {
+   "team": "Romania",
+   "match_id": 3938638,
+   "player": 56905,
+   "name": "Dennis Man",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -18.48,
+   "observed_dC": 9.24
+  },
+  {
+   "team": "Romania",
+   "match_id": 3930183,
+   "player": 56905,
+   "name": "Dennis Man",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -11.98,
+   "observed_dC": -15.18
+  },
+  {
+   "team": "Romania",
+   "match_id": 3941021,
+   "player": 34600,
+   "name": "Nicusor Bancu",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -26.9,
+   "observed_dC": -14.99
+  },
+  {
+   "team": "Scotland",
+   "match_id": 3930177,
+   "player": 10540,
+   "name": "Kieran Tierney",
+   "full_match_absence": true,
+   "absent_minutes": 102.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -28.97,
+   "observed_dC": 31.12
+  },
+  {
+   "team": "Serbia",
+   "match_id": 3930163,
+   "player": 4269,
+   "name": "Aleksandar Mitrovi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 35.0,
+   "windows": [
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -17.81,
+   "observed_dC": -55.49
+  },
+  {
+   "team": "Serbia",
+   "match_id": 3930163,
+   "player": 6318,
+   "name": "Andrija \u017divkovi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -2.4,
+   "observed_dC": -57.87
+  },
+  {
+   "team": "Serbia",
+   "match_id": 3930163,
+   "player": 3831,
+   "name": "Du\u0161an Tadi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -19.66,
+   "observed_dC": 5.06
+  },
+  {
+   "team": "Serbia",
+   "match_id": 3930182,
+   "player": 5589,
+   "name": "Sergej Milinkovi\u0107-Savi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 75.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": 7.41,
+   "observed_dC": 37.32
+  },
+  {
+   "team": "Slovakia",
+   "match_id": 3938640,
+   "player": 16879,
+   "name": "D\u00e1vid Hancko",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -8.6,
+   "observed_dC": 36.09
+  },
+  {
+   "team": "Slovenia",
+   "match_id": 3930162,
+   "player": 15896,
+   "name": "Timi El\u0161nik",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -7.65,
+   "observed_dC": 39.62
+  },
+  {
+   "team": "Slovenia",
+   "match_id": 3930162,
+   "player": 16528,
+   "name": "Petar Stojanovi\u0107",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -12.31,
+   "observed_dC": 12.31
+  },
+  {
+   "team": "Slovenia",
+   "match_id": 3941020,
+   "player": 31866,
+   "name": "Andra\u017e \u0160porar",
+   "full_match_absence": false,
+   "absent_minutes": 50.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 3,
+   "predicted_dC": -40.58,
+   "observed_dC": -24.75
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930160,
+   "player": 68574,
+   "name": "Nico Williams",
+   "full_match_absence": false,
+   "absent_minutes": 21.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -17.22,
+   "observed_dC": -58.21
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930160,
+   "player": 16532,
+   "name": "Daniel Olmo",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -9.26,
+   "observed_dC": -26.4
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930172,
+   "player": 16532,
+   "name": "Daniel Olmo",
+   "full_match_absence": true,
+   "absent_minutes": 97.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 6,
+   "predicted_dC": -14.69,
+   "observed_dC": 4.84
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930179,
+   "player": 6655,
+   "name": "Fabi\u00e1n Ruiz",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 6,
+   "predicted_dC": -16.18,
+   "observed_dC": -3.09
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930179,
+   "player": 6765,
+   "name": "Rodri",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 6,
+   "predicted_dC": -13.76,
+   "observed_dC": -5.0
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930179,
+   "player": 5721,
+   "name": "Daniel Carvajal",
+   "full_match_absence": true,
+   "absent_minutes": 95.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -17.79,
+   "observed_dC": -2.92
+  },
+  {
+   "team": "Spain",
+   "match_id": 3942752,
+   "player": 5721,
+   "name": "Daniel Carvajal",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -17.79,
+   "observed_dC": -7.57
+  },
+  {
+   "team": "Spain",
+   "match_id": 3943043,
+   "player": 6765,
+   "name": "Rodri",
+   "full_match_absence": false,
+   "absent_minutes": 50.0,
+   "windows": [
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 5,
+   "predicted_dC": -9.31,
+   "observed_dC": -15.0
+  },
+  {
+   "team": "Switzerland",
+   "match_id": 3930169,
+   "player": 6983,
+   "name": "Remo Freuler",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -4.92,
+   "observed_dC": 28.93
+  },
+  {
+   "team": "Turkey",
+   "match_id": 3930174,
+   "player": 116587,
+   "name": "Arda G\u00fcler",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -22.37,
+   "observed_dC": -27.13
+  },
+  {
+   "team": "Turkey",
+   "match_id": 3941022,
+   "player": 7039,
+   "name": "Hakan \u00c7alhano\u011flu",
+   "full_match_absence": true,
+   "absent_minutes": 96.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60",
+    "60-75",
+    "75-90+"
+   ],
+   "n_reference_matches": 4,
+   "predicted_dC": -15.84,
+   "observed_dC": -16.01
+  },
+  {
+   "team": "Ukraine",
+   "match_id": 3938638,
+   "player": 23649,
+   "name": "Roman Yaremchuk",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -33.94,
+   "observed_dC": 81.23
+  },
+  {
+   "team": "Ukraine",
+   "match_id": 3938638,
+   "player": 45863,
+   "name": "Oleksandr Tymchyk",
+   "full_match_absence": false,
+   "absent_minutes": 60.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45",
+    "45-60"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -11.69,
+   "observed_dC": 109.6
+  },
+  {
+   "team": "Ukraine",
+   "match_id": 3938645,
+   "player": 3575,
+   "name": "Oleksandr Zinchenko",
+   "full_match_absence": false,
+   "absent_minutes": 45.0,
+   "windows": [
+    "0-15",
+    "15-30",
+    "30-45"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -7.46,
+   "observed_dC": -16.25
+  },
+  {
+   "team": "Ukraine",
+   "match_id": 3938645,
+   "player": 23649,
+   "name": "Roman Yaremchuk",
+   "full_match_absence": false,
+   "absent_minutes": 20.0,
+   "windows": [
+    "75-90+"
+   ],
+   "n_reference_matches": 2,
+   "predicted_dC": -50.45,
+   "observed_dC": 15.43
+  }
+ ],
+ "claim": "predicts the structural impact of real absences"
+}

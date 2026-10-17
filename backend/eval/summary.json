@@ -1,0 +1,520 @@
+{
+ "expert_agreement_demo": {
+  "test": "4E.1 expert agreement (leave-one-out)",
+  "n": 14,
+  "hits": 5,
+  "hit_rate": 0.3571,
+  "chance_rate_analytic": 0.2804,
+  "chance_rate_permutation": 0.2808,
+  "permutation_p_value": 0.3577,
+  "n_perm": 10000,
+  "most_touches_hits": 1,
+  "most_touches_rate": 0.0714,
+  "spearman_mean": 0.0471,
+  "sentence": "Blind to the match, the system re-derives the pressing targets elite staffs chose in 5 of 14 held-out games, against a 28% chance rate (most-touches heuristic: 1 of 14).",
+  "teams": [
+   "Spain",
+   "England"
+  ],
+  "claim": "agrees with elite targeting decisions out-of-sample"
+ },
+ "expert_agreement_all": {
+  "test": "4E.1 expert agreement (leave-one-out)",
+  "n": 102,
+  "hits": 26,
+  "hit_rate": 0.2549,
+  "chance_rate_analytic": 0.2934,
+  "chance_rate_permutation": 0.2929,
+  "permutation_p_value": 0.8345,
+  "n_perm": 10000,
+  "most_touches_hits": 13,
+  "most_touches_rate": 0.1275,
+  "spearman_mean": -0.0215,
+  "sentence": "Blind to the match, the system re-derives the pressing targets elite staffs chose in 26 of 102 held-out games, against a 29% chance rate (most-touches heuristic: 13 of 102).",
+  "teams": [
+   "Albania",
+   "Austria",
+   "Belgium",
+   "Croatia",
+   "Czech Republic",
+   "Denmark",
+   "England",
+   "France",
+   "Georgia",
+   "Germany",
+   "Hungary",
+   "Italy",
+   "Netherlands",
+   "Poland",
+   "Portugal",
+   "Romania",
+   "Scotland",
+   "Serbia",
+   "Slovakia",
+   "Slovenia",
+   "Spain",
+   "Switzerland",
+   "Turkey",
+   "Ukraine"
+  ],
+  "claim": "agrees with elite targeting decisions out-of-sample"
+ },
+ "expert_folds_demo": [
+  {
+   "team": "Spain",
+   "match_id": 3930160,
+   "n": 10,
+   "hit": false,
+   "spearman": -0.2848,
+   "chance": 0.3,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 7,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930172,
+   "n": 10,
+   "hit": false,
+   "spearman": 0.0667,
+   "chance": 0.3,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 5,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930179,
+   "n": 11,
+   "hit": true,
+   "spearman": -0.4727,
+   "chance": 0.2727272727272727,
+   "prediction": "Daniel Olmo",
+   "truth_rank": 3,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3941018,
+   "n": 10,
+   "hit": false,
+   "spearman": -0.0424,
+   "chance": 0.3,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 5,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3942226,
+   "n": 13,
+   "hit": false,
+   "spearman": -0.022,
+   "chance": 0.23076923076923078,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 7,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3942752,
+   "n": 10,
+   "hit": false,
+   "spearman": 0.2364,
+   "chance": 0.3,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 8,
+   "most_touches_hit": false
+  },
+  {
+   "team": "Spain",
+   "match_id": 3943043,
+   "n": 11,
+   "hit": false,
+   "spearman": -0.0091,
+   "chance": 0.2727272727272727,
+   "prediction": "Fabi\u00e1n Ruiz",
+   "truth_rank": 4,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3930163,
+   "n": 10,
+   "hit": false,
+   "spearman": -0.0667,
+   "chance": 0.3,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 5,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3930171,
+   "n": 10,
+   "hit": true,
+   "spearman": 0.6364,
+   "chance": 0.3,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 2,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3930181,
+   "n": 11,
+   "hit": false,
+   "spearman": 0.3636,
+   "chance": 0.2727272727272727,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 4,
+   "most_touches_hit": true
+  },
+  {
+   "team": "England",
+   "match_id": 3941017,
+   "n": 11,
+   "hit": true,
+   "spearman": 0.2909,
+   "chance": 0.2727272727272727,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 1,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3942227,
+   "n": 13,
+   "hit": false,
+   "spearman": -0.1648,
+   "chance": 0.23076923076923078,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 5,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3942819,
+   "n": 11,
+   "hit": true,
+   "spearman": 0.2909,
+   "chance": 0.2727272727272727,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 3,
+   "most_touches_hit": false
+  },
+  {
+   "team": "England",
+   "match_id": 3943043,
+   "n": 10,
+   "hit": true,
+   "spearman": -0.1636,
+   "chance": 0.3,
+   "prediction": "Jude Bellingham",
+   "truth_rank": 1,
+   "most_touches_hit": false
+  }
+ ],
+ "c_vs_xg": {
+  "test": "4E.3 construct validity (C vs xG)",
+  "n": 102,
+  "pearson_r": 0.4039,
+  "pearson_p": 0.0,
+  "spearman_r": 0.4377,
+  "spearman_p": 0.0,
+  "claim": "objective tracks xG (correlation, not causation)"
+ },
+ "absence_prediction": {
+  "test": "4E.2 out-of-sample impact prediction",
+  "n": 69,
+  "available": true,
+  "pearson_r": -0.0234,
+  "pearson_p": 0.8489,
+  "mae": 28.64,
+  "mae_always_zero": 27.92,
+  "beats_zero_forecaster": false,
+  "observed_sd": 35.61,
+  "k": 0.3,
+  "subsets": {
+   "full_match_absences (delete)": {
+    "n": 22,
+    "available": true,
+    "pearson_r": 0.279,
+    "pearson_p": 0.2085,
+    "mae": 14.4,
+    "mae_always_zero": 17.78,
+    "beats_zero_forecaster": true,
+    "observed_sd": 20.78
+   },
+   "substitution_windows (suppress k=0.3)": {
+    "n": 47,
+    "available": true,
+    "pearson_r": -0.0891,
+    "pearson_p": 0.5515,
+    "mae": 35.3,
+    "mae_always_zero": 32.67,
+    "beats_zero_forecaster": false,
+    "observed_sd": 40.19
+   }
+  },
+  "note": "pre-specified split: a full-match absence is simulated with delete, a substitution window with suppress; substitution windows are single 15-minute slices where M and D are small integers (high observed variance)",
+  "claim": "predicts the structural impact of real absences"
+ },
+ "score_ablation": {
+  "in_sample": {
+   "k": 0.3,
+   "variant": "in_sample",
+   "n": 14,
+   "top_mean": -9.08,
+   "top_std": 8.18,
+   "median_mean": -3.64,
+   "median_std": 6.26,
+   "top_more_damaging_in": 9
+  },
+  "held_out": {
+   "k": 0.3,
+   "variant": "held_out",
+   "n": 14,
+   "top_mean": -9.08,
+   "top_std": 8.18,
+   "median_mean": -8.02,
+   "median_std": 6.95,
+   "top_more_damaging_in": 8
+  }
+ },
+ "evolved_vs_greedy": {
+  "our": "England",
+  "their": "Spain",
+  "champion_dC": -16.075,
+  "champion_committed": 4,
+  "greedy_equal_budget_dC": -16.075,
+  "comparison": [
+   {
+    "budget": 1,
+    "greedy_dC": -4.793,
+    "ga_dC": -4.793,
+    "ga_genes": [
+     {
+      "presser": {
+       "id": 3943,
+       "name": "Declan Rice"
+      },
+      "action": "cut",
+      "target": {
+       "src": 17620,
+       "dst": 68574,
+       "src_name": "Marc Cucurella",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:3943",
+       "edge:17620->68574"
+      ]
+     }
+    ]
+   },
+   {
+    "budget": 2,
+    "greedy_dC": -9.246,
+    "ga_dC": -9.246,
+    "ga_genes": [
+     {
+      "presser": {
+       "id": 3943,
+       "name": "Declan Rice"
+      },
+      "action": "cut",
+      "target": {
+       "src": 17620,
+       "dst": 68574,
+       "src_name": "Marc Cucurella",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:3943",
+       "edge:17620->68574"
+      ]
+     },
+     {
+      "presser": {
+       "id": 30714,
+       "name": "Jude Bellingham"
+      },
+      "action": "mark",
+      "target": {
+       "id": 16532,
+       "name": "Daniel Olmo"
+      },
+      "k": 0.9,
+      "refs": [
+       "player:30714",
+       "player:16532"
+      ]
+     }
+    ]
+   },
+   {
+    "budget": 3,
+    "greedy_dC": -13.319,
+    "ga_dC": -13.319,
+    "ga_genes": [
+     {
+      "presser": {
+       "id": 3943,
+       "name": "Declan Rice"
+      },
+      "action": "cut",
+      "target": {
+       "src": 17620,
+       "dst": 68574,
+       "src_name": "Marc Cucurella",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:3943",
+       "edge:17620->68574"
+      ]
+     },
+     {
+      "presser": {
+       "id": 30714,
+       "name": "Jude Bellingham"
+      },
+      "action": "mark",
+      "target": {
+       "id": 16532,
+       "name": "Daniel Olmo"
+      },
+      "k": 0.9,
+      "refs": [
+       "player:30714",
+       "player:16532"
+      ]
+     },
+     {
+      "presser": {
+       "id": 4354,
+       "name": "Phil Foden"
+      },
+      "action": "cut",
+      "target": {
+       "src": 6655,
+       "dst": 68574,
+       "src_name": "Fabi\u00e1n Ruiz",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:4354",
+       "edge:6655->68574"
+      ]
+     }
+    ]
+   },
+   {
+    "budget": 4,
+    "greedy_dC": -16.075,
+    "ga_dC": -16.075,
+    "ga_genes": [
+     {
+      "presser": {
+       "id": 3943,
+       "name": "Declan Rice"
+      },
+      "action": "cut",
+      "target": {
+       "src": 17620,
+       "dst": 68574,
+       "src_name": "Marc Cucurella",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:3943",
+       "edge:17620->68574"
+      ]
+     },
+     {
+      "presser": {
+       "id": 30714,
+       "name": "Jude Bellingham"
+      },
+      "action": "mark",
+      "target": {
+       "id": 16532,
+       "name": "Daniel Olmo"
+      },
+      "k": 0.9,
+      "refs": [
+       "player:30714",
+       "player:16532"
+      ]
+     },
+     {
+      "presser": {
+       "id": 4354,
+       "name": "Phil Foden"
+      },
+      "action": "cut",
+      "target": {
+       "src": 6655,
+       "dst": 68574,
+       "src_name": "Fabi\u00e1n Ruiz",
+       "dst_name": "Nico Williams"
+      },
+      "k": 0.3,
+      "refs": [
+       "player:4354",
+       "edge:6655->68574"
+      ]
+     },
+     {
+      "presser": {
+       "id": 22084,
+       "name": "Bukayo Saka"
+      },
+      "action": "mark",
+      "target": {
+       "id": 5721,
+       "name": "Daniel Carvajal"
+      },
+      "k": 0.9,
+      "refs": [
+       "player:22084",
+       "player:5721"
+      ]
+     }
+    ]
+   }
+  ],
+  "gene_ablation": [
+   {
+    "cell": "3943:cut:17620->68574",
+    "marginal_dC": -4.875
+   },
+   {
+    "cell": "30714:mark:16532",
+    "marginal_dC": -4.634
+   },
+   {
+    "cell": "4354:cut:6655->68574",
+    "marginal_dC": -3.99
+   },
+   {
+    "cell": "22084:mark:5721",
+    "marginal_dC": -2.756
+   }
+  ]
+ },
+ "charts": [
+  "expert_agreement.png",
+  "c_vs_xg.png",
+  "ga_vs_greedy.png",
+  "score_ablation_in_sample.png",
+  "score_ablation_held_out.png"
+ ],
+ "reporting_rules": "counts beside percentages; every metric beside its baseline; fixed seeds (42); leakage guard tests/test_leakage.py"
+}

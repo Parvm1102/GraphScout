@@ -81,3 +81,16 @@ stale sim_* clones. `backend/run_api.sh`.
 Acceptance: curl health/matches/network/scores/simulate/player all return correct shapes (e.g. Spain final 0-30':
 M=30 V=38 D=11; Rice marks Rodri -> modeled ΔC -1.4% +-0.7 over 7 matches, empirical ΔC -7.6% from Rodri's real
 absence windows) (PASS). Frontend build (Phase 7) delegated to a subagent against this contract.
+
+## Phase 4E — Evaluation — 2026-10-17 21:40 IST
+Shipped: whole-tournament ingestion (51 match graphs, 24 teams, 493 player profiles), `app/evals/expert.py` (4E.1),
+`app/evals/absence.py` (4E.2), `app/evals/xg.py` (4E.3), `scripts/run_evals.py` -> eval/summary.json + charts
+(expert_agreement, absence, c_vs_xg, ga_vs_greedy, score_ablation_*), `tests/test_leakage.py` (2 passed).
+Results (honest, with baselines): 4E.1 demo teams 5 of 14 vs 28% chance (perm p=0.36), most-touches 1 of 14; all 24
+teams 26 of 102 vs 29% chance (at chance), most-touches 13 of 102; Spearman +0.05. 4E.2 all absences n=69 r=-0.02,
+MAE 28.6 vs always-zero 27.9 (fails); full-match absences n=22 r=+0.28, MAE 14.4 vs 17.8 (beats zero); substitution
+windows fail (single 15-min slices, observed SD 40). 4E.3 C_raw vs xG Pearson +0.40, Spearman +0.44, n=102.
+Acceptance: leakage test green; charts written and embedded in README beside baselines; numbers served by
+eval_summary()/GET /api/eval (PASS). Claims calibrated per 4E.4; the failed tests are reported as failed.
+Also: README.md, VIDEO.md (shot list), docs/ (charts + StatsBomb logo). Reverse matchup Spain v England: champion
+-30.5% +-20.9 (Cucurella marks Walker at k=0.40). Frontend (Phase 7) in progress via subagent.

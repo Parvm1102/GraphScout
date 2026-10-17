@@ -37,7 +37,7 @@ def chart_expert(res_demo: dict, res_all: dict | None, path: Path) -> None:
         for b, v in zip(bars, vals):
             ax.text(b.get_x() + b.get_width() / 2, v + 0.01, f"{v*100:.0f}%", ha="center", color=FG, fontsize=9)
         ax.set_ylim(0, max(0.6, max(vals) + 0.1)); ax.set_ylabel("top-3 hit rate (held-out)")
-        style(ax, f"4E.1 expert agreement, {label} (n={n}, Spearman {res['spearman_mean']:+.2f}, perm p={res['permutation_p_value']:.2f})")
+        style(ax, f"4E.1 expert agreement — {label}\nn={n}, Spearman {res['spearman_mean']:+.2f}, permutation p={res['permutation_p_value']:.2f}")
     fig.tight_layout(); fig.savefig(path, dpi=150, facecolor=BG); plt.close(fig)
 
 
@@ -53,15 +53,24 @@ def chart_xg(res: dict, path: Path) -> None:
 
 def chart_ga(final: dict, path: Path) -> None:
     comp = final["comparison"]
-    fig, ax = plt.subplots(figsize=(6, 4), facecolor=BG)
+    fig, ax = plt.subplots(figsize=(6.5, 4.2), facecolor=BG)
     xs = [r["budget"] for r in comp]
-    ax.plot(xs, [r.get("greedy_dC") for r in comp], marker="o", color=GREY, label="greedy (commitment curve)")
-    ax.plot(xs, [r.get("ga_dC") for r in comp], marker="s", color=AMBER, label="evolved best at budget")
+    w = 0.36
+    g = [r.get("greedy_dC") if r.get("greedy_dC") is not None else 0 for r in comp]
+    e = [r.get("ga_dC") if r.get("ga_dC") is not None else 0 for r in comp]
+    b1 = ax.bar([x - w / 2 for x in xs], g, width=w, color=GREY, label="greedy (commitment curve)")
+    b2 = ax.bar([x + w / 2 for x in xs], e, width=w, color=AMBER, label="evolved best at budget")
+    for bars in (b1, b2):
+        for b in bars:
+            ax.text(b.get_x() + b.get_width() / 2, b.get_height() - 0.3, f"{b.get_height():+.1f}", ha="center", va="top", color=BG, fontsize=8, fontweight="bold")
     c = final["champion"]
-    ax.scatter([c["committed"]], [c["dC_mean"]], s=160, facecolors="none", edgecolors=GREEN, linewidths=2, label=f"champion ({c['committed']} players, {c['dC_mean']:+.1f}%)")
+    ax.scatter([c["committed"] + w / 2], [c["dC_mean"]], s=200, facecolors="none", edgecolors=GREEN, linewidths=2,
+               label=f"champion: {c['committed']} players, {c['dC_mean']:+.1f}% (Tier A)", zorder=5)
+    ax.axhline(0, color="#4B5563", lw=0.8)
     ax.set_xlabel("committed players"); ax.set_ylabel("ΔC % (Tier A, mean over opponent matches)"); ax.set_xticks(xs)
-    ax.legend(facecolor=BG, labelcolor=FG, edgecolor="#374151", fontsize=8)
-    style(ax, f"Evolved vs greedy at equal budget, {final['our']} v {final['their']} ({len(final['champion']['verified']['per_match'])} matches)")
+    ax.legend(facecolor=BG, labelcolor=FG, edgecolor="#374151", fontsize=8, loc="upper right")
+    n = len(final["champion"]["verified"]["per_match"])
+    style(ax, f"Evolved vs greedy at equal budget — {final['our']} v {final['their']} ({n} matches)")
     fig.tight_layout(); fig.savefig(path, dpi=150, facecolor=BG); plt.close(fig)
 
 
