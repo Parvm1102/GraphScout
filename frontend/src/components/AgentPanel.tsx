@@ -83,7 +83,7 @@ function Message({ m }: { m: ChatMessage }) {
                   {a.kind === 'tool_call' ? 'call' : 'result'} · {a.name}
                 </span>
                 <span className="text-ink-2 min-w-0 break-words">
-                  {a.kind === 'tool_call' ? fmtArgs(a.args) : a.summary}
+                  {a.kind === 'tool_call' ? fmtArgs(a.args) : fmtSummary(a.summary)}
                   {a.kind === 'tool_result' && !!a.refs?.length && <span className="text-ink-3"> · {a.refs.length} refs</span>}
                 </span>
               </motion.div>
@@ -142,6 +142,12 @@ function ClaimCard({ c }: { c: Claim }) {
       </span>
     </button>
   )
+}
+
+function fmtSummary(summary?: string | Record<string, unknown>): string {
+  if (summary == null) return ''
+  if (typeof summary === 'string') return summary
+  return fmtArgs(summary)
 }
 
 function fmtArgs(args?: Record<string, unknown>): string {

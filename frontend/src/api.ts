@@ -152,7 +152,7 @@ export interface Claim { text: string; refs: string[]; basis: 'modeled' | 'empir
 export type ChatEvent =
   | { event: 'text'; data: { delta: string } }
   | { event: 'tool_call'; data: { name: string; args: Record<string, unknown>; call: number } }
-  | { event: 'tool_result'; data: { name: string; refs: string[]; summary: string; is_error: boolean } }
+  | { event: 'tool_result'; data: { name: string; refs: string[]; summary: string | Record<string, unknown>; is_error: boolean } }
   | { event: 'claims'; data: { claims: Claim[]; plan_id?: string | null; parse_error?: string | null } }
   | { event: 'done'; data: { calls: number; budget: number } }
   | { event: 'error'; data: { message: string } }

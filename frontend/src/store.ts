@@ -13,7 +13,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant'
   text: string
   claims?: Claim[]
-  activity?: { kind: 'tool_call' | 'tool_result'; name: string; summary?: string; args?: Record<string, unknown>; is_error?: boolean; refs?: string[] }[]
+  activity?: { kind: 'tool_call' | 'tool_result'; name: string; summary?: string | Record<string, unknown>; args?: Record<string, unknown>; is_error?: boolean; refs?: string[] }[]
   error?: string
   plan_id?: string | null
   calls?: number; budget?: number
