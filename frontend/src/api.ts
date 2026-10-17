@@ -216,7 +216,8 @@ export async function readSSE(
   for (;;) {
     const { value, done } = await reader.read()
     if (done) break
-    buf += dec.decode(value, { stream: true })
+    // sse-starlette emits CRLF line endings; normalise so block detection works on either
+    buf += dec.decode(value, { stream: true }).replace(/\r\n/g, '\n').replace(/\r/g, '\n')
     let idx: number
     while ((idx = buf.indexOf('\n\n')) >= 0) {
       const block = buf.slice(0, idx)

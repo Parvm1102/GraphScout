@@ -4,6 +4,9 @@ import Footer from './components/Footer'
 import WindowBrush from './components/WindowBrush'
 import NetworkStats from './components/NetworkStats'
 import SimDiff from './components/SimDiff'
+import OptimizePanel from './components/OptimizePanel'
+import AgentPanel from './components/AgentPanel'
+import ErrorBoundary from './components/ErrorBoundary'
 import PitchCanvas, { type PitchPlayer } from './components/PitchCanvas'
 import { otherPositions, useStore, useTeamColor } from './store'
 
@@ -52,22 +55,28 @@ export default function App() {
       <main className="flex-1 min-h-0 grid gap-3 p-3" style={{ gridTemplateColumns: 'minmax(0, 7fr) minmax(400px, 5fr)' }}>
         <section className="flex flex-col gap-3 min-w-0 min-h-0 overflow-y-auto scroll-thin pr-1">
           <div className="panel p-2">
+            <ErrorBoundary label="Pitch">
             <PitchCanvas players={players} edges={edges} teamColor={teamColor} plan={plan} otherPositions={others}
               selectedPlayer={simSel.mode === 'suppress' ? simSel.target : null}
               selectedEdge={simSel.mode === 'cut_lane' ? simSel.edge : null}
               onPlayerClick={(id) => setSimSel({ mode: 'suppress', target: simSel.target === id ? null : id })}
               onEdgeClick={(src, dst) => setSimSel({ mode: 'cut_lane', edge: { src, dst } })} />
+            </ErrorBoundary>
           </div>
           <WindowBrush />
           <NetworkStats />
-          <SimDiff />
+          <ErrorBoundary label="Simulate"><SimDiff /></ErrorBoundary>
         </section>
         <aside className="panel min-w-0 min-h-0 flex flex-col">
           <div className="flex border-b border-white/[0.07] px-2">
             {TABS.map((t) => <button key={t} className="tab" data-on={t === tab} onClick={() => setTab(t)}>{t}</button>)}
           </div>
-          <div className="p-3 flex-1 min-h-0 overflow-y-auto scroll-thin">
-            <div className="text-ink-2 text-[12px]">{tab} panel</div>
+          <div className="p-3 flex-1 min-h-0 overflow-y-auto scroll-thin flex flex-col">
+            <ErrorBoundary key={tab} label={`${tab} panel`}>
+              {tab === 'Optimize' && <OptimizePanel />}
+              {tab === 'Agent' && <AgentPanel />}
+              {tab !== 'Optimize' && tab !== 'Agent' && <div className="text-ink-2 text-[12px]">{tab} panel</div>}
+            </ErrorBoundary>
           </div>
         </aside>
       </main>

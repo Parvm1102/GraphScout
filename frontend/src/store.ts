@@ -210,10 +210,14 @@ export const useStore = create<State>()((set, get) => ({
         set((st) => {
           const o = { ...st.optimize }
           if (ev === 'start') o.start = data as OptStart
-          else if (ev === 'greedy') o.greedy = data as OptGreedy
+          else if (ev === 'greedy') { o.greedy = data as OptGreedy; persistRun(our, their, o.start, o.greedy) }
           else if (ev === 'generation') o.generations = [...o.generations, data as OptGeneration]
-          else if (ev === 'final') { o.final = data as OptFinal; o.status = 'done' }
-          else if (ev === 'error') { o.error = (data as { message: string }).message; o.status = 'error' }
+          else if (ev === 'final') {
+            const f = data as OptFinal
+            if (f && typeof f === 'object' && f.champion) { o.final = f; o.status = 'done' }
+            else { o.error = 'optimizer returned a malformed final event'; o.status = 'error' }
+          }
+          else if (ev === 'error') { o.error = (data as { message: string })?.message ?? String(data); o.status = 'error' }
           return { optimize: o }
         })
       })
@@ -229,9 +233,10 @@ export const useStore = create<State>()((set, get) => ({
     try {
       const final = await api.optimizeLast(our, their)
       if (!final || get().optimize.status !== 'idle') return
+      const saved = restoreRun(our, their, final.run_id)
       set({
         optimize: {
-          status: 'done', start: null, greedy: null, final, error: null, fromCache: true,
+          status: 'done', start: saved?.start ?? null, greedy: saved?.greedy ?? null, final, error: null, fromCache: true,
           generations: final.evolution ?? [],
         },
       })
@@ -285,6 +290,19 @@ export const useStore = create<State>()((set, get) => ({
   clearHighlights() { set({ highlights: new Set(), hover: new Set() }) },
   setHover(r) { set({ hover: new Set(r) }) },
 }))
+
+function persistRun(our: string, their: string, start: OptStart | null, greedy: OptGreedy | null) {
+  if (!start || !greedy) return
+  try { sessionStorage.setItem(`gs.run.${our}.${their}`, JSON.stringify({ run_id: start.run_id, start, greedy })) } catch { /* quota or private mode */ }
+}
+function restoreRun(our: string, their: string, runId: string): { start: OptStart; greedy: OptGreedy } | null {
+  try {
+    const raw = sessionStorage.getItem(`gs.run.${our}.${their}`)
+    if (!raw) return null
+    const v = JSON.parse(raw) as { run_id: string; start: OptStart; greedy: OptGreedy }
+    return v.run_id === runId ? { start: v.start, greedy: v.greedy } : null
+  } catch { return null }
+}
 
 function lastMatchOf(m: MatchesResponse, team: string): number | null {
   const played = m.matches.filter((x) => x.home === team || x.away === team)

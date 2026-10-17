@@ -18,9 +18,9 @@ export default function CommitmentCurve() {
   const kneePt = data.find((d) => d.c === knee)
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between">
+      <div>
         <div className="panel-title flex items-center gap-1.5">Commitment curve <BasisBadge basis="modeled" /></div>
-        <div className="text-[11px] text-ink-3">total ΔC after each greedy pick, band = ±1 std over {opt.start?.match_ids.length ?? opt.final?.champion.verified.per_match.length ?? ''} matches · knee at <span className="num text-ink">{knee}</span></div>
+        <div className="text-[11px] text-ink-3">total ΔC after each greedy pick, band = ±1 std over {opt.start?.match_ids.length ?? opt.final?.champion.verified.per_match.length ?? ''} matches · knee at <span className="num text-ink">{knee}</span> commitments</div>
       </div>
       <div style={{ height: 170 }}>
         <ResponsiveContainer width="100%" height="100%">
