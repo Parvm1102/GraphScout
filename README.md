@@ -35,6 +35,18 @@ Data: [StatsBomb Open Data](https://github.com/statsbomb/open-data) — thank yo
 6. **Evaluates itself** against ground truth from outside the system (real pressing targets, real absences, xG),
    held out, with a baseline beside every number — including the tests it does not pass.
 
+## The app
+
+Left: the pitch canvas (SVG in StatsBomb coordinates, node size = S_p, edge width = completed passes, particles =
+volume), the window brush, and the simulate panel with the before→after morph, ΔC ticker (modeled) and the empirical
+absence card. Right: Optimize (heatmap with greedy playback, commitment curve, live evolution, evolved-vs-greedy
+closing frame with gene ablation), Agent, Scores (weight sliders re-rank live) and Evidence (every chart beside its
+baseline). A GSAP landing page at `/` leads into the app at `/app`.
+
+![Simulate: Rice marks Fabián Ruiz](docs/app_simulate.png)
+![Evolution closing frame](docs/app_evolution.png)
+![Evidence panel](docs/app_evidence.png)
+
 ## Why a graph is load-bearing
 
 The questions are multi-hop: *how much ball can still travel from the goalkeeper and centre-backs to the forwards

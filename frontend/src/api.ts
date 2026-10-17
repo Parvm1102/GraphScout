@@ -105,6 +105,7 @@ export interface OptGeneration {
   mean_fitness: number; champion_genes: Gene[]; evaluations: number; seconds?: number
 }
 export interface OptFinal {
+  start?: OptStart; greedy_event?: OptGreedy  // cached alongside the final payload by /api/optimize/last
   run_id: string; plan_id: string; our: string; their: string
   champion: {
     genes: Gene[]; cells: string[]; plan?: PlanItem[]; committed: number; fitness: number; dC_mean: number; dC_std: number

@@ -155,6 +155,9 @@ def composite(df: pd.DataFrame, weights: dict | None = None, exclude_match: int 
     w = dict(F.W_S)
     if weights:
         w.update({k: float(v) for k, v in weights.items() if k in w})
+        tot = sum(w.values())
+        if tot > 0:
+            w = {k: v / tot for k, v in w.items()}   # sliders are relative weights; S_p scale stays comparable
     sub = df[(df.match_id != exclude_match) & (df.minutes >= min_minutes)].copy() if exclude_match is not None \
         else df[df.minutes >= min_minutes].copy()
     sub["press_resist_t"] = sub.id.map(press_resist_profile(df, exclude_match)).fillna(0.5)

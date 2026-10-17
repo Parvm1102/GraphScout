@@ -75,14 +75,16 @@ def optimize_stream(our: str, their: str, method: str = "ga", max_commitments: i
     pools = build_pools(our, their)
     engine = FastEngine(their, pools.match_ids, windows)
     matchup = f"{our} v {their}"
-    yield {"type": "start", "run_id": run_id, "our": our, "their": their, "method": method, "match_ids": pools.match_ids,
-           "pressers": pools.pressers, "targets": pools.targets, "lanes": pools.lanes, "kmat": _kmat_rows(pools),
-           "seed": seed, "max_commitments": max_commitments, "windows": windows or list(F.WINDOWS)}
+    start_ev = {"type": "start", "run_id": run_id, "our": our, "their": their, "method": method, "match_ids": pools.match_ids,
+                "pressers": pools.pressers, "targets": pools.targets, "lanes": pools.lanes, "kmat": _kmat_rows(pools),
+                "seed": seed, "max_commitments": max_commitments, "windows": windows or list(F.WINDOWS)}
+    yield start_ev
 
     g = greedy(engine, pools, max_commitments, force, forbid)
     greedy_pub = {k: v for k, v in g.items() if k not in ("genes", "plan", "per_match")}
     greedy_pub["cells"] = [cell_key(x) for x in g["genes"]]
-    yield {"type": "greedy", **greedy_pub}
+    greedy_ev = {"type": "greedy", **greedy_pub}
+    yield greedy_ev
 
     ga_result = None
     champion_genes = list(g["genes"])
@@ -140,6 +142,7 @@ def optimize_stream(our: str, their: str, method: str = "ga", max_commitments: i
                         "steps": g["steps"], "knee": g["knee"]},
              "ablation": ablation, "comparison": comparison,
              "evolution": (ga_result["history"] if ga_result else []),
+             "start": start_ev, "greedy_event": greedy_ev,
              "evaluations": engine.evaluations, "seconds": round(time.time() - t0, 2), "refs": refs, "basis": "modeled"}
     LAST[f"{our}|{their}|{method}"] = final
     yield final

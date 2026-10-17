@@ -66,7 +66,7 @@ export default function EvolutionView() {
       <div className="flex items-center justify-between gap-2">
         <div>
           <div className="panel-title flex items-center gap-1.5">Evolution <BasisBadge basis="modeled" /></div>
-          <div className="text-[11px] text-ink-3">fitness = −mean ΔC − 0.8·std − 0.3·commitments (higher is better); champion genes drawn on {their}'s shape</div>
+          <div className="text-[11px] text-ink-3">fitness = −mean ΔC − 1.5 × committed players (higher is better); champion genes drawn on {their}'s shape</div>
         </div>
         <div className="text-right text-[11px] text-ink-3 num">
           generation <span className="text-ink font-semibold">{cur ? cur.gen : 0}</span> of {Math.max(0, gens.length - 1)}

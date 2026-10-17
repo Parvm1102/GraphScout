@@ -103,13 +103,17 @@ def main() -> None:
     absence = None
     p = config.EVAL_DIR / "absence.json"
     if p.exists():
-        absence = {k: v for k, v in json.loads(p.read_text()).items() if k != "rows"}
+        a = json.loads(p.read_text())
+        absence = {k: v for k, v in a.items() if k != "rows"}
+        absence["rows"] = [{k: r[k] for k in ("team", "match_id", "player", "name", "full_match_absence", "absent_minutes", "predicted_dC", "observed_dC")}
+                           for r in a.get("rows", [])]
 
     summary = {
         "expert_agreement_demo": {k: v for k, v in demo.items() if k != "folds"},
         "expert_agreement_all": ({k: v for k, v in res_all.items() if k != "folds"} if res_all else None),
         "expert_folds_demo": [{k: f[k] for k in ("team", "match_id", "n", "hit", "spearman", "chance")} | {"prediction": f["prediction"]["name"], "truth_rank": f["prediction"]["truth_rank"], "most_touches_hit": f["most_touches"]["hit"]} for f in demo["folds"]],
-        "c_vs_xg": {k: v for k, v in x.items() if k != "rows"},
+        "c_vs_xg": {**{k: v for k, v in x.items() if k != "rows"},
+                    "points": [{"match_id": r["match_id"], "team": r["team"], "C": r["C_raw"], "xg": r["xg"]} for r in x["rows"]]},
         "absence_prediction": absence,
         "score_ablation": abl,
         "evolved_vs_greedy": {"our": final["our"], "their": final["their"], "champion_dC": final["champion"]["dC_mean"],

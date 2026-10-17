@@ -236,7 +236,7 @@ export const useStore = create<State>()((set, get) => ({
       const saved = restoreRun(our, their, final.run_id)
       set({
         optimize: {
-          status: 'done', start: saved?.start ?? null, greedy: saved?.greedy ?? null, final, error: null, fromCache: true,
+          status: 'done', start: saved?.start ?? final.start ?? null, greedy: saved?.greedy ?? final.greedy_event ?? null, final, error: null, fromCache: true,
           generations: final.evolution ?? [],
         },
       })

@@ -94,3 +94,27 @@ Acceptance: leakage test green; charts written and embedded in README beside bas
 eval_summary()/GET /api/eval (PASS). Claims calibrated per 4E.4; the failed tests are reported as failed.
 Also: README.md, VIDEO.md (shot list), docs/ (charts + StatsBomb logo). Reverse matchup Spain v England: champion
 -30.5% +-20.9 (Cucurella marks Walker at k=0.40). Frontend (Phase 7) in progress via subagent.
+
+## Phase 7 — Frontend — 2026-10-17 23:20 IST
+Shipped (Vite 8 + React 19 + TS strict + Tailwind 4, framer-motion, zustand, recharts, gsap + lenis; built by a
+delegated subagent against the live API, reviewed and patched here): PitchCanvas (120x80 SVG, chalk 40%, r∝S_p,
+curved passes, ≤120 flow particles, highlight bus), WindowBrush, SimDiff (continuous before→after morph, amber leash,
+red lane flash, dashed estimated reroutes, ΔC count-up with modeled badge, empirical absence card, M/V/D tickers,
+betweenness inheritance), AssignmentHeatmap (pressers × targets/lanes, dimmed by overlap, "Play greedy" re-cooling),
+CommitmentCurve (knee), EvolutionView (buffered SSE generations, fitness line climbing, champion genes morphing on a
+mini-pitch, evolved-vs-greedy bars + gene ablation, Tier A verified badge), AgentPanel (streamed text, amber tool rows,
+claims with modeled/empirical badges, refs -> highlights; graceful 401), WeightSliders + ScoresTable, EvidencePanel
+(4E.1 bars with "k of n", score ablation strip, evolved-vs-greedy, C-vs-xG scatter, 4E.2 MAE vs zero), Landing (GSAP
+ScrollTrigger + Lenis, 4 scenes, real data). StatsBomb logo credit in the footer. 19 Playwright screenshots in
+frontend/shots. Fixes applied after review: wrong fitness formula text, "D · depth" -> "D · disjoint paths", cached
+run now hydrates start/greedy from /api/optimize/last. Acceptance: `npm run build` zero TS errors; no console errors
+in screenshot runs; design-skill review on screenshots (dark, tabular-nums, amber only for optimizer/agent) (PASS).
+Backend follow-ups from the frontend review: /api/eval now carries c_vs_xg.points and absence_prediction.rows;
+/api/optimize/last carries start + greedy_event (matrices); /api/scores normalises slider weights to sum 1.
+
+## Phase 8 — Submission package — 2026-10-17 23:30 IST
+Shipped: README.md (what/why-graph/FalkorDB role with Browser screenshots/no-fiction assumptions table/optimizer
+story/evaluation with baselines and calibrated claims/agent/run-locally/credits), VIDEO.md shot list (screen
+recording; Remotion intro cut per the cut list), BLOG.md draft, Makefile, docs/ charts + logo + Browser screenshots.
+Deploy skipped (human absent for logins; local-run package complete). Not built: ACO reroute (cut list #1).
+Open item for the human: a valid ANTHROPIC_API_KEY (`sk-ant-api03-…`) in .env to demo the agent; everything else runs.

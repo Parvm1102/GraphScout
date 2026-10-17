@@ -15,7 +15,7 @@ export default function NetworkStats() {
   const cells: { label: string; before: number; after?: number }[] = [
     { label: 'M · max-flow', before: comp.M, after: showAfter ? pm.M_after : undefined },
     { label: 'V · progressive', before: comp.V, after: showAfter ? pm.V_after : undefined },
-    { label: 'D · depth', before: comp.D, after: showAfter ? pm.D_after : undefined },
+    { label: 'D · disjoint paths', before: comp.D, after: showAfter ? pm.D_after : undefined },
   ]
   return (
     <div className="grid grid-cols-5 gap-2">
