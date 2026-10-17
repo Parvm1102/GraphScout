@@ -115,6 +115,11 @@ K_MIN, K_MAX = 0.25, 0.90
 K_LANE = 0.30         # lane cut multiplier (fixed)
 K_DEFAULT = 0.30      # used when no matchup-derived k is available (evals, manual suppress)
 K_DECIMALS = 4        # both simulation tiers round k identically before use
+# DEVIATION (documented): with Euro 2024 data the raw product regain*overlap*(1-press_resist) never
+# exceeds ~0.1, so the brief's exact formula clamps EVERY pair to 0.90 and cannot rank matchups.
+# "relative" feeds the same formula squad-relative inputs: regain min-maxed within the pressing squad,
+# overlap divided by the best overlap in the presser x target pool. "raw" is the brief's literal form.
+K_MODE = "relative"   # "relative" | "raw"
 
 
 def clamp(v: float, lo: float, hi: float) -> float:
