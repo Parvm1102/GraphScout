@@ -39,6 +39,10 @@ empirical_window for the key target. For "what if we mark Y" questions: simulate
 (presser = our player if named). Our team is {our}; their team is {their} unless the user says otherwise.
 Write for a coach: concise, concrete, names and numbers, 120-250 words, no headers, no emoji.
 
+Multi-turn: earlier turns of this conversation, including their tool calls and tool results, are valid sources;
+reuse those numbers freely and do not retract them. Never say you are "running the analysis now" or will report
+back later: either call the tools in this turn or answer from the results you already have.
+
 Response contract: after the prose, end with exactly one fenced JSON block:
 ```json
 {{"claims": [{{"text": "...", "refs": ["player:6765", "edge:3233->5203", "match:3942819"], "basis": "modeled", "value": "-16.1%"}}], "plan_id": "plan_..."}}
@@ -48,6 +52,23 @@ match:<id>), basis is "modeled" or "empirical", value is the headline number as 
 returned one. 2-6 claims. Nothing after the JSON block."""
 
 JSON_BLOCK = re.compile(r"```json\s*(\{.*?\})\s*```", re.DOTALL)
+
+# Server-side transcripts keyed by conversation id: the FULL message list (assistant tool_use blocks and
+# tool_result blocks included) plus the refs tools have returned so far. Text-only histories made the
+# model believe its earlier numbers had no source and retract them.
+MAX_CONVERSATIONS = 200
+CONVERSATIONS: dict[str, dict] = {}
+
+
+def _conversation(cid: str | None) -> dict:
+    if not cid:
+        return {"messages": [], "refs": set(), "plan_ids": []}
+    conv = CONVERSATIONS.get(cid)
+    if conv is None:
+        if len(CONVERSATIONS) >= MAX_CONVERSATIONS:
+            CONVERSATIONS.pop(next(iter(CONVERSATIONS)))
+        conv = CONVERSATIONS[cid] = {"messages": [], "refs": set(), "plan_ids": []}
+    return conv
 
 
 def _client() -> anthropic.AsyncAnthropic:
@@ -98,12 +119,18 @@ class BudgetExceeded(RuntimeError):
     pass
 
 
-async def run_agent(question: str, history: list[dict] | None = None) -> AsyncIterator[dict]:
-    """Yields SSE-shaped events: text, tool_call, tool_result, claims, done, error."""
+async def run_agent(question: str, history: list[dict] | None = None,
+                    conversation_id: str | None = None) -> AsyncIterator[dict]:
+    """Yields SSE-shaped events: text, tool_call, tool_result, claims, done, error.
+
+    With a conversation_id the server keeps the full transcript (tool blocks included) between turns; the
+    text-only `history` is used only when no conversation_id is given (legacy clients)."""
     client = _client()
-    messages = list(history or []) + [{"role": "user", "content": question}]
-    allowed_refs: set[str] = set()
-    plan_ids: list[str] = []
+    conv = _conversation(conversation_id)
+    base = conv["messages"] if conversation_id else list(history or [])
+    messages = list(base) + [{"role": "user", "content": question}]
+    allowed_refs: set[str] = set(conv["refs"])
+    plan_ids: list[str] = list(conv["plan_ids"])
     calls = 0
     full_text = ""
     use_fallbacks = config.ANTHROPIC_FALLBACKS == "default"
@@ -161,5 +188,10 @@ async def run_agent(question: str, history: list[dict] | None = None) -> AsyncIt
     claims = parse_claims(full_text, allowed_refs)
     if claims["plan_id"] is None and plan_ids:
         claims["plan_id"] = plan_ids[-1]
+    if conversation_id:
+        conv["messages"] = messages
+        conv["refs"] = allowed_refs
+        conv["plan_ids"] = plan_ids
     yield {"type": "claims", **claims, "calls": calls}
-    yield {"type": "done", "calls": calls, "budget": config.LLM_BUDGET}
+    yield {"type": "done", "calls": calls, "budget": config.LLM_BUDGET, "conversation_id": conversation_id,
+           "turns": sum(1 for m in messages if m["role"] == "user" and isinstance(m["content"], str))}

@@ -94,7 +94,8 @@ class OptimizeRequest(BaseModel):
 
 class ChatRequest(BaseModel):
     question: str
-    history: list[dict] | None = None
+    history: list[dict] | None = None          # legacy text-only history (ignored when conversation_id is set)
+    conversation_id: str | None = None         # server keeps the full tool-use transcript per id
 
 
 # ------------------------------------------------------------------------------------- routes
@@ -214,7 +215,7 @@ def eval_results() -> dict:
 async def chat(req: ChatRequest) -> EventSourceResponse:
     async def gen() -> AsyncIterator[dict]:
         try:
-            async for ev in AGENT.run_agent(req.question, req.history):
+            async for ev in AGENT.run_agent(req.question, req.history, req.conversation_id):
                 if ev["type"] == "error":
                     log.warning("chat error event: %s", ev.get("message"))
                 yield {"event": ev["type"], "data": json.dumps(ev, default=str)}

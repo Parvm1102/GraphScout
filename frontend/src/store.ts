@@ -57,7 +57,7 @@ interface State {
   simSel: SimSel
   simView: 'before' | 'after'
   optimize: OptimizeState
-  chat: { messages: ChatMessage[]; streaming: boolean }
+  chat: { messages: ChatMessage[]; streaming: boolean; conversationId: string }
   highlights: Set<string>
   hover: Set<string>
   error: string | null
@@ -104,7 +104,7 @@ export const useStore = create<State>()((set, get) => ({
   simSel: { mode: 'suppress', target: null, presser: null, edge: null },
   simView: 'after',
   optimize: { status: 'idle', start: null, greedy: null, generations: [], final: null, error: null, fromCache: false },
-  chat: { messages: [], streaming: false },
+  chat: { messages: [], streaming: false, conversationId: crypto.randomUUID() },
   highlights: new Set(),
   hover: new Set(),
   error: null,
@@ -249,7 +249,7 @@ export const useStore = create<State>()((set, get) => ({
       .map((m) => ({ role: m.role, content: m.text }))
     const userMsg: ChatMessage = { role: 'user', text: question }
     const asst: ChatMessage = { role: 'assistant', text: '', activity: [], claims: [], streaming: true }
-    set((st) => ({ chat: { messages: [...st.chat.messages, userMsg, asst], streaming: true } }))
+    set((st) => ({ chat: { ...st.chat, messages: [...st.chat.messages, userMsg, asst], streaming: true } }))
     const patch = (fn: (m: ChatMessage) => ChatMessage) =>
       set((st) => {
         const msgs = st.chat.messages.slice()
@@ -271,7 +271,7 @@ export const useStore = create<State>()((set, get) => ({
         const { mockChatStream } = await import('./lib/mockChat')
         await mockChatStream(question, onEvent)
       } else {
-        await readSSE('/api/chat', { question, history }, onEvent)
+        await readSSE('/api/chat', { question, history, conversation_id: get().chat.conversationId }, onEvent)
       }
     } catch (e) {
       patch((m) => ({ ...m, error: (e as Error).message }))

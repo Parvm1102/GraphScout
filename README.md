@@ -192,7 +192,9 @@ Gemma-only policy; the rest of the policy stands: the LLM only plans, selects to
 work is Cypher/algorithms; a hard cap of 15 model calls per question is enforced by a counter that aborts loudly).
 Tools (each returns data + `refs`): `list_matches`, `team_profile`, `player_scores`, `decompose_influence`,
 `pressure_profile`, `empirical_window`, `simulate`, `optimize` (GA default, greedy comparison, gene ablation),
-`eval_summary`, `save_plan`. The answer streams prose and ends with a fenced JSON block
+`eval_summary`, `save_plan`. Conversations are multi-turn: the server keeps the full transcript per conversation id,
+tool calls and results included, so follow-up questions reuse earlier evidence instead of re-deriving or retracting it.
+The answer streams prose and ends with a fenced JSON block
 `{claims:[{text, refs, basis:"modeled"|"empirical", value}], plan_id?}`; refs not produced by a tool in that turn are
 dropped before the UI highlights them.
 

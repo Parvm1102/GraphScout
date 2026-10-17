@@ -128,3 +128,13 @@ optimize ga, optimize greedy, empirical_window), coach-facing prose, 4 claims wi
 modeled/empirical labels, 29 s (PASS). It surfaced one real bug: GRAPH.COPY was refused with "could not fork" while
 FalkorDB ran a background save, so the GA tool errored and the agent fell back to greedy (and said so honestly).
 Fix: `tier_a.copy_with_retry` retries the clone with exponential backoff (7 attempts, 0.25 s -> 4 s).
+
+## Agent fixes after live use — 2026-10-18 00:50 IST
+- AgentPanel crashed ("Objects are not valid as a React child") because tool_result summaries are objects; now formatted.
+- Follow-up questions made the model retract its own earlier numbers: the browser had sent text-only history, so the
+  transcript showed numbers with no tool calls behind them. Fix: `/api/chat` takes a `conversation_id`; the server keeps
+  the full message list (tool_use + tool_result blocks) and the accumulated refs per conversation; the frontend sends a
+  per-session id. Verified: turn 2 answered from stored results in 1 model call, same plan id, no retraction, and
+  declined a win-probability question as the calibration rules require.
+- GRAPH.COPY "could not fork" (FalkorDB background save) now retried with backoff; chat error events logged server-side;
+  SDK retries raised to 4.
