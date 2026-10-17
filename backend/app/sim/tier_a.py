@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import time
 import uuid
 
 import networkx as nx
@@ -13,6 +14,23 @@ from app.metrics.circulation import c_score, components
 from app.sim.model import EdgeList, aggregate_pairs, apply_plan
 
 log = logging.getLogger(__name__)
+
+
+def copy_with_retry(g, name: str, attempts: int = 7, base_delay: float = 0.25):
+    """GRAPH.COPY forks a child process; while FalkorDB runs a background save (or another copy) the fork is
+    refused with "could not fork". Retry with exponential backoff instead of failing the simulation."""
+    delay = base_delay
+    for i in range(attempts):
+        try:
+            return g.copy(name)
+        except Exception as exc:
+            msg = str(exc).lower()
+            if "fork" not in msg and "busy" not in msg or i == attempts - 1:
+                raise
+            log.warning("GRAPH.COPY refused (%s); retry %d/%d in %.2fs", exc, i + 1, attempts, delay)
+            time.sleep(delay)
+            delay = min(delay * 2, 4.0)
+    raise RuntimeError("unreachable")
 
 
 def weighted_bt_shares(el: EdgeList) -> dict[int, float]:
@@ -36,7 +54,7 @@ def simulate_match(match_id: int, team: str, plan: list[dict], windows: list[str
     base_comp = components(base)
     el_b, det = apply_plan(base, plan)            # the numbers Tier A must materialise
     sim_name = f"sim_{uuid.uuid4().hex[:12]}"
-    sim = g.copy(sim_name)                        # server-side GRAPH.COPY
+    sim = copy_with_retry(g, sim_name)            # server-side GRAPH.COPY
     try:
         if det["mults"]:
             sim.query(Q.SIM_APPLY_MULTS, {"mults": det["mults"], "wins": wins})

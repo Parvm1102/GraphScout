@@ -118,3 +118,13 @@ story/evaluation with baselines and calibrated claims/agent/run-locally/credits)
 recording; Remotion intro cut per the cut list), BLOG.md draft, Makefile, docs/ charts + logo + Browser screenshots.
 Deploy skipped (human absent for logins; local-run package complete). Not built: ACO reroute (cut list #1).
 Open item for the human: a valid ANTHROPIC_API_KEY (`sk-ant-api03-…`) in .env to demo the agent; everything else runs.
+
+## Phase 5 acceptance — 2026-10-18 00:05 IST
+Credential resolved: the `sk-ant-usr…` keys are valid personal keys. The first one was unscoped (API: 400 "not scoped
+to a workspace"); the human created a workspace-scoped personal key and it works (resolves to wrkspc_016D…). The agent
+also honours `ANTHROPIC_WORKSPACE_ID` (sends `anthropic-workspace-id`) for unscoped keys.
+Acceptance `python scripts/chat.py "How do we beat Spain?"`: 3 model calls of 15, 4 tool calls (team_profile,
+optimize ga, optimize greedy, empirical_window), coach-facing prose, 4 claims with validated refs and
+modeled/empirical labels, 29 s (PASS). It surfaced one real bug: GRAPH.COPY was refused with "could not fork" while
+FalkorDB ran a background save, so the GA tool errored and the agent fell back to greedy (and said so honestly).
+Fix: `tier_a.copy_with_retry` retries the clone with exponential backoff (7 attempts, 0.25 s -> 4 s).

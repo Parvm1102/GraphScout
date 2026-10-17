@@ -215,8 +215,12 @@ cd backend && uv venv --python 3.12 .venv && uv pip install --python .venv/bin/p
 .venv/bin/python scripts/ablation.py in_sample && .venv/bin/python scripts/run_evals.py   # charts + eval/summary.json
 ./run_api.sh                                      # FastAPI on :8000 (CORS open, no auth)
 
-# 2. Agent credential (only needed for the chat): put a valid key in ./.env
-echo 'ANTHROPIC_API_KEY=sk-ant-api03-...' > .env   # repo root; re-read on every question
+# 2. Agent credential (only needed for the chat): put a key in ./.env (re-read on every question)
+echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env
+# Key types: a workspace key (sk-ant-api03-...) or a personal key created INSIDE a workspace (sk-ant-usr-...) works
+# as-is. A personal key with no workspace scope is valid too but the API answers 400 "not scoped to a workspace";
+# then add ANTHROPIC_WORKSPACE_ID=wrkspc_... (Console -> Settings -> Workspaces) and the agent sends the
+# anthropic-workspace-id header for you.
 backend/.venv/bin/python backend/scripts/chat.py "How do we beat Spain?"
 
 # 3. Frontend (Vite + React + TS + Tailwind; proxies /api -> :8000)

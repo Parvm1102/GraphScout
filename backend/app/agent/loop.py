@@ -52,10 +52,15 @@ JSON_BLOCK = re.compile(r"```json\s*(\{.*?\})\s*```", re.DOTALL)
 
 def _client() -> anthropic.AsyncAnthropic:
     # Re-read .env on every question so a corrected ANTHROPIC_API_KEY works without restarting the API.
+    import os
     from dotenv import load_dotenv
     load_dotenv(config.REPO_DIR / ".env", override=True)
     load_dotenv(config.BACKEND_DIR / ".env", override=True)
-    return anthropic.AsyncAnthropic()
+    # User-scoped keys (prefix sk-ant-usr) are valid but not bound to a workspace; the API then requires
+    # the anthropic-workspace-id header on every request. Set ANTHROPIC_WORKSPACE_ID=wrkspc_... in .env.
+    ws = os.getenv("ANTHROPIC_WORKSPACE_ID", "").strip()
+    headers = {"anthropic-workspace-id": ws} if ws else None
+    return anthropic.AsyncAnthropic(default_headers=headers)
 
 
 def system_prompt() -> list[dict]:
