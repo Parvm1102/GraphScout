@@ -60,7 +60,8 @@ def _client() -> anthropic.AsyncAnthropic:
     # the anthropic-workspace-id header on every request. Set ANTHROPIC_WORKSPACE_ID=wrkspc_... in .env.
     ws = os.getenv("ANTHROPIC_WORKSPACE_ID", "").strip()
     headers = {"anthropic-workspace-id": ws} if ws else None
-    return anthropic.AsyncAnthropic(default_headers=headers)
+    # 429/529 are retried by the SDK with backoff; allow more attempts than the default 2 for interactive demos.
+    return anthropic.AsyncAnthropic(default_headers=headers, max_retries=4)
 
 
 def system_prompt() -> list[dict]:

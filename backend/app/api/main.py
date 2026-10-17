@@ -215,6 +215,8 @@ async def chat(req: ChatRequest) -> EventSourceResponse:
     async def gen() -> AsyncIterator[dict]:
         try:
             async for ev in AGENT.run_agent(req.question, req.history):
+                if ev["type"] == "error":
+                    log.warning("chat error event: %s", ev.get("message"))
                 yield {"event": ev["type"], "data": json.dumps(ev, default=str)}
         except AGENT.BudgetExceeded as exc:
             yield {"event": "done", "data": json.dumps({"type": "done", "aborted": True, "message": str(exc)})}
