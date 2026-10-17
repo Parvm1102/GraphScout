@@ -233,6 +233,29 @@ Data: the pipeline reads `open-data/data/...` from a local clone of StatsBomb op
 fetches each file from `raw.githubusercontent.com` into `backend/data_cache/` (≈ 250 MB for the tournament). No
 StatsBomb account is needed.
 
+## Deploy (FalkorDB Cloud + Render + Vercel)
+
+The app is three pieces. The database cannot run on Render's free tier (it exposes HTTP only), so it goes to
+FalkorDB Cloud; the API goes to Render; the static frontend goes to Vercel.
+
+1. **FalkorDB Cloud** — create a free instance at https://app.falkordb.cloud, copy host, port and password.
+   Connection URL: `falkors://default:<password>@<host>:<port>` (use `falkor://` if the instance has no TLS).
+2. **Load the graphs from your laptop** (the pipeline fetches StatsBomb files over HTTP, no clone needed):
+   ```bash
+   cd backend && FALKOR_URL='falkors://default:<password>@<host>:<port>' .venv/bin/python scripts/ingest.py --whole-tournament
+   FALKOR_URL='falkors://...' .venv/bin/python -c "from app.metrics import scores as S; S.build_profiles()"
+   FALKOR_URL='falkors://...' .venv/bin/python -c "from app.evals import xg; xg.run()"   # caches C baselines
+   ```
+3. **Render** — "New → Blueprint", point it at this repo; `render.yaml` defines the `graph-scout-api` web service
+   (Python 3.12, `pip install -r backend/requirements.txt`, uvicorn on `$PORT`, health check `/api/health`).
+   Set `FALKOR_URL` and `ANTHROPIC_API_KEY` in the service's environment. The free plan sleeps after 15 idle
+   minutes; the first request after that takes ~30 s. `eval/summary.json` is committed, so `/api/eval` works
+   without rerunning the evaluations.
+4. **Vercel** — import the repo, root directory `frontend`, framework Vite, build `npm run build`, output `dist`.
+   Set `VITE_API_BASE=https://<your-render-service>.onrender.com`. `frontend/vercel.json` rewrites every route to
+   `index.html` so `/` (landing) and `/app` both load. SSE streams (optimize, chat) go straight from the browser to
+   Render, which keeps them unbuffered.
+
 ## Repository map
 
 ```

@@ -16,7 +16,10 @@ log = logging.getLogger(__name__)
 
 @lru_cache(maxsize=1)
 def get_db() -> FalkorDB:
-    return FalkorDB(host=config.FALKOR_HOST, port=config.FALKOR_PORT)
+    if config.FALKOR_URL:
+        return FalkorDB.from_url(config.FALKOR_URL)
+    return FalkorDB(host=config.FALKOR_HOST, port=config.FALKOR_PORT, username=config.FALKOR_USERNAME,
+                    password=config.FALKOR_PASSWORD, ssl=config.FALKOR_SSL)
 
 
 def graph(name: str) -> Graph:

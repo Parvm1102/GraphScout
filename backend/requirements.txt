@@ -1,0 +1,14 @@
+falkordb==1.8.0
+redis==8.1.0
+fastapi==0.143.3
+uvicorn[standard]==0.54.0
+sse-starlette==3.5.0
+anthropic==1.15.0
+pandas==3.0.6
+numpy==2.5.4
+networkx==3.7
+scipy==1.18.1
+matplotlib==3.11.2
+python-dotenv==1.2.4
+requests==2.34.2
+pytest==9.1.1

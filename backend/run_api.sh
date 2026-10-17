@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# Graph Scout backend: uvicorn on :8000 (CORS open, no auth)
+# Graph Scout backend: uvicorn (CORS open, no auth). Local: .venv on :8000. Render: system python on $PORT.
 cd "$(dirname "$0")"
-exec .venv/bin/uvicorn app.api.main:app --host 0.0.0.0 --port 8000 "$@"
+PY=.venv/bin/uvicorn; [ -x "$PY" ] || PY=uvicorn
+exec "$PY" app.api.main:app --host 0.0.0.0 --port "${PORT:-8000}" "$@"

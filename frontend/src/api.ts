@@ -1,4 +1,7 @@
 // Typed fetchers for the Graph Scout API (served under /api, proxied by Vite in dev).
+// In production set VITE_API_BASE (e.g. https://graph-scout-api.onrender.com) so the static site calls the
+// backend directly (CORS is open there); empty in dev, where Vite proxies /api.
+export const API_BASE = ((import.meta.env.VITE_API_BASE as string | undefined) ?? '').replace(/\/$/, '')
 
 export interface MatchTeam { team: string; xg: number; goals: number; home: boolean }
 export interface Match {
@@ -159,12 +162,12 @@ export type ChatEvent =
 
 // ---- helpers ---------------------------------------------------------------
 async function getJSON<T>(url: string, signal?: AbortSignal): Promise<T> {
-  const r = await fetch(url, { signal })
+  const r = await fetch(API_BASE + url, { signal })
   if (!r.ok) throw new Error(`${r.status} ${r.statusText} for ${url}`)
   return (await r.json()) as T
 }
 async function postJSON<T>(url: string, body: unknown, signal?: AbortSignal): Promise<T> {
-  const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal })
+  const r = await fetch(API_BASE + url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal })
   if (!r.ok) throw new Error(`${r.status} ${r.statusText} for ${url}`)
   return (await r.json()) as T
 }
@@ -185,7 +188,7 @@ export const api = {
     getJSON<AblationResponse>(`/api/ablation?our=${encodeURIComponent(our)}&their=${encodeURIComponent(their)}`, signal),
   evals: (signal?: AbortSignal) => getJSON<EvalResponse>('/api/eval', signal),
   optimizeLast: async (our: string, their: string, method = 'ga'): Promise<OptFinal | null> => {
-    const r = await fetch(`/api/optimize/last?our=${encodeURIComponent(our)}&their=${encodeURIComponent(their)}&method=${method}`)
+    const r = await fetch(`${API_BASE}/api/optimize/last?our=${encodeURIComponent(our)}&their=${encodeURIComponent(their)}&method=${method}`)
     if (r.status === 404) return null
     if (!r.ok) throw new Error(`${r.status} for optimize/last`)
     return (await r.json()) as OptFinal
@@ -199,7 +202,7 @@ export async function readSSE(
   onEvent: (event: string, data: unknown) => void,
   signal?: AbortSignal,
 ): Promise<void> {
-  const r = await fetch(url, {
+  const r = await fetch(API_BASE + url, {
     method: 'POST',
     headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
     body: JSON.stringify(body),

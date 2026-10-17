@@ -1,0 +1,22 @@
+# Render blueprint: deploys the FastAPI backend as a web service. FalkorDB itself lives on FalkorDB Cloud
+# (Render's free tier only exposes HTTP). Set FALKOR_URL and ANTHROPIC_API_KEY in the Render dashboard.
+services:
+  - type: web
+    name: graph-scout-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: FALKOR_URL
+        sync: false      # falkors://default:<password>@<host>:<port>  (FalkorDB Cloud)
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_WORKSPACE_ID
+        sync: false      # only for an unscoped personal key
+      - key: AGENT_EFFORT
+        value: medium
