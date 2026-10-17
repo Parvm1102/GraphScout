@@ -134,7 +134,7 @@ def apply_plan(el: EdgeList, plan: list[dict]) -> tuple[EdgeList, dict[str, Any]
         s, y, w = int(el.src[i]), int(el.dst[i]), el.win[i]
         ycol = col.get(y)
         cands = [j for j in by_src_win[(s, w)]
-                 if j != i and k_row[j] >= 1.0 and col.get(int(el.dst[j])) == ycol and el.cnt[j] > 0]
+                 if j != i and k_row[j] >= 1.0 and col.get(int(el.dst[j])) == ycol and el.cc[j] > 0]
         if not cands:
             continue
         tot = float(el.cnt[cands].sum())

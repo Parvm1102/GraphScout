@@ -45,3 +45,18 @@ Deviation: brief's literal k = clamp(1 - regain*overlap*(1-press_resist)) hits t
 data (raw product < 0.1), so `formulas.K_MODE="relative"` feeds the same formula squad-relative regain and pool-relative
 overlap; "raw" mode is kept and both values are reported per pair. Max-flow is networkx in both tiers (brief's
 sanctioned fallback) so Tier A/B cannot drift; native algo.maxFlow is a cross-check only.
+
+## Phase 4 — Simulator & optimizers — 2026-10-17 19:45 IST
+Shipped: `app/optim/candidates.py` (our top-6 pressers x their top-4 S_p + top-3 progressive lanes, k matrix),
+`app/optim/greedy.py` (lock best cell, re-simulate remaining matrix with locked interventions, force/forbid, commitment
+curve + knee), `app/optim/ga.py` (4-gene chromosome, repair, uniform crossover 0.5, mutation 0.25 with swap/retarget/
+fill/empty, tournament k=3, pop 30, 20 gens, elitism 2, greedy-seeded, fixed seed), `app/optim/run.py` (SSE-shaped
+event stream: start -> greedy -> generation x21 -> final with Tier-A-verified champion, greedy at equal budget, per-gene
+ablation, best-per-budget comparison, lineage `(:Plan)-[:EVOLVED_FROM]->(:Plan)` in catalog), `scripts/optimize.py`.
+Acceptance: England v Spain GA run in 12 s (1.5 s evolution + ~40 Tier A clones): champion = Rice cuts
+Cucurella->N.Williams, Bellingham marks Olmo, Foden cuts F.Ruiz->N.Williams, Saka marks Carvajal; ΔC -16.1% +-7.6
+over 7 Spain matches (Tier A == Tier B). Consistency test green. The GA matched greedy on this matchup (no better
+4-gene plan exists in the pool; reported as such, never inflated).
+Deviation/fix: reroutes now land only on lanes with >=1 observed completed pass (an attempted-only lane could
+otherwise gain a completed pass -> new flow path -> ΔC>0 artefacts). Score-ablation chart written:
+eval/score_ablation_in_sample.png (top-S_p -9.1 vs median -3.6, top more damaging in 9 of 14) and held-out variant.

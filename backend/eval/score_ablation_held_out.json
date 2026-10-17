@@ -1,0 +1,208 @@
+{
+ "k": 0.3,
+ "variant": "held_out",
+ "n": 14,
+ "top_mean": -9.08,
+ "top_std": 8.18,
+ "median_mean": -8.02,
+ "median_std": 6.95,
+ "top_more_damaging_in": 8,
+ "rows": [
+  {
+   "team": "Spain",
+   "match_id": 3930160,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -12.5107
+   },
+   "median": {
+    "id": 316046,
+    "name": "Lamine Yamal",
+    "dC": -18.9467
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930172,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -6.8896
+   },
+   "median": {
+    "id": 17620,
+    "name": "Marc Cucurella",
+    "dC": -11.5342
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3930179,
+   "top": {
+    "id": 16532,
+    "name": "Daniel Olmo",
+    "dC": -7.4432
+   },
+   "median": {
+    "id": 24921,
+    "name": "Mart\u00edn Zubimendi",
+    "dC": -6.2958
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3941018,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -6.3447
+   },
+   "median": {
+    "id": 17620,
+    "name": "Marc Cucurella",
+    "dC": -10.8348
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3942226,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -12.9035
+   },
+   "median": {
+    "id": 316046,
+    "name": "Lamine Yamal",
+    "dC": -8.3072
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3942752,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -5.9242
+   },
+   "median": {
+    "id": 4353,
+    "name": "Aymeric Laporte",
+    "dC": -0.7826
+   }
+  },
+  {
+   "team": "Spain",
+   "match_id": 3943043,
+   "top": {
+    "id": 6655,
+    "name": "Fabi\u00e1n Ruiz",
+    "dC": -8.8533
+   },
+   "median": {
+    "id": 4353,
+    "name": "Aymeric Laporte",
+    "dC": -1.0345
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3930163,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -8.8342
+   },
+   "median": {
+    "id": 4354,
+    "name": "Phil Foden",
+    "dC": -21.9704
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3930171,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": 3.1206
+   },
+   "median": {
+    "id": 3308,
+    "name": "Kieran Trippier",
+    "dC": -14.4668
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3930181,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -6.5545
+   },
+   "median": {
+    "id": 3308,
+    "name": "Kieran Trippier",
+    "dC": -11.3172
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3941017,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -9.9634
+   },
+   "median": {
+    "id": 3244,
+    "name": "John Stones",
+    "dC": -0.2098
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3942227,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -1.2286
+   },
+   "median": {
+    "id": 3244,
+    "name": "John Stones",
+    "dC": 0.0
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3942819,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -7.9238
+   },
+   "median": {
+    "id": 3308,
+    "name": "Kieran Trippier",
+    "dC": -6.0007
+   }
+  },
+  {
+   "team": "England",
+   "match_id": 3943043,
+   "top": {
+    "id": 30714,
+    "name": "Jude Bellingham",
+    "dC": -34.9059
+   },
+   "median": {
+    "id": 3244,
+    "name": "John Stones",
+    "dC": -0.5172
+   }
+  }
+ ]
+}
