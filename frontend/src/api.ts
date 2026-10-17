@@ -122,19 +122,27 @@ export interface AblationBlock {
   top_more_damaging_in: number
   rows: { team: string; match_id: number; top: { id: number; name: string; dC: number }; median: { id: number; name: string; dC: number } }[]
 }
-export interface AblationResponse { score_ablation_in_sample: AblationBlock; score_ablation_held_out?: AblationBlock }
+export interface AblationResponse {
+  score_ablation_in_sample: AblationBlock; score_ablation_held_out?: AblationBlock
+  gene_ablation?: OptFinal['ablation']; comparison?: OptFinal['comparison']; run_id?: string
+}
 
 export interface ExpertAgreement {
   n: number; hits: number; hit_rate: number; chance_rate_analytic: number; chance_rate_permutation: number
   permutation_p_value: number; most_touches_hits: number; most_touches_rate: number; spearman_mean: number; sentence?: string
 }
+export interface ExpertFold { team: string; match_id: number; n: number; hit: boolean; spearman: number; chance: number; prediction: string; truth_rank: number; most_touches_hit: boolean }
+export interface AbsenceBlock { n: number; available: boolean; pearson_r: number; pearson_p: number; mae: number; mae_always_zero: number; beats_zero_forecaster: boolean; observed_sd: number }
 export interface EvalResponse {
   available?: boolean; note?: string
   expert_agreement_demo?: ExpertAgreement; expert_agreement_all?: ExpertAgreement | null
-  c_vs_xg?: { n: number; pearson_r: number; pearson_p: number; spearman_r: number; spearman_p: number; points?: { match_id: number; team: string; C?: number; c?: number; xg: number }[] }
-  absence_prediction?: { n?: number; pairs?: { player?: number; name?: string; predicted: number; observed: number }[]; spearman_r?: number; pearson_r?: number; sign_agreement?: number } | null
-  score_ablation?: { in_sample: AblationBlock; held_out?: AblationBlock }
-  evolved_vs_greedy?: { champion_dC: number; champion_committed: number; greedy_equal_budget_dC: number; comparison?: OptFinal['comparison']; gene_ablation?: OptFinal['ablation'] }
+  expert_folds_demo?: ExpertFold[]
+  c_vs_xg?: { n: number; pearson_r: number; pearson_p: number; spearman_r: number; spearman_p: number; points?: { match_id: number; team: string; C: number; xg: number }[] }
+  absence_prediction?: (AbsenceBlock & { k?: number; subsets?: Record<string, AbsenceBlock>; note?: string; rows?: { team: string; match_id: number; player: number; name: string; predicted_dC: number; observed_dC: number; full_match_absence: boolean }[] }) | null
+  score_ablation?: { in_sample: Omit<AblationBlock, 'rows'>; held_out?: Omit<AblationBlock, 'rows'> }
+  evolved_vs_greedy?: { our?: string; their?: string; champion_dC: number; champion_committed: number; greedy_equal_budget_dC: number; comparison?: OptFinal['comparison']; gene_ablation?: OptFinal['ablation'] }
+  charts?: string[]
+  reporting_rules?: string
   calibration?: { allowed_claims: string[]; forbidden_claims: string[]; rule: string }
 }
 

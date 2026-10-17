@@ -51,7 +51,7 @@ export default function AssignmentHeatmap() {
     const ids = opt.start?.pressers.map((p) => p.id) ?? []
     if (ids.length) return ids
     const set = new Set<number>()
-    matrices[0] && Object.keys(matrices[0].cells).forEach((k) => set.add(parseCell(k).presser))
+    if (matrices[0]) Object.keys(matrices[0].cells).forEach((k) => set.add(parseCell(k).presser))
     steps.forEach((s) => set.add(s.gene.presser.id))
     return [...set]
   }, [opt.start, matrices, steps])
@@ -60,7 +60,7 @@ export default function AssignmentHeatmap() {
     const cuts = opt.start?.lanes.map((l) => `cut:${l.src}->${l.dst}`) ?? []
     if (marks.length + cuts.length) return [...marks, ...cuts]
     const set = new Set<string>()
-    matrices[0] && Object.keys(matrices[0].cells).forEach((k) => set.add(parseCell(k).col))
+    if (matrices[0]) Object.keys(matrices[0].cells).forEach((k) => set.add(parseCell(k).col))
     steps.forEach((s) => set.add(parseCell(s.cell).col))
     return [...set].sort((a, b) => (a.startsWith('mark') === b.startsWith('mark') ? 0 : a.startsWith('mark') ? -1 : 1))
   }, [opt.start, matrices, steps])

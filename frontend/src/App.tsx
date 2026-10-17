@@ -6,6 +6,8 @@ import NetworkStats from './components/NetworkStats'
 import SimDiff from './components/SimDiff'
 import OptimizePanel from './components/OptimizePanel'
 import AgentPanel from './components/AgentPanel'
+import ScoresPanel from './components/ScoresPanel'
+import EvidencePanel from './components/EvidencePanel'
 import ErrorBoundary from './components/ErrorBoundary'
 import PitchCanvas, { type PitchPlayer } from './components/PitchCanvas'
 import { otherPositions, useStore, useTeamColor } from './store'
@@ -75,7 +77,8 @@ export default function App() {
             <ErrorBoundary key={tab} label={`${tab} panel`}>
               {tab === 'Optimize' && <OptimizePanel />}
               {tab === 'Agent' && <AgentPanel />}
-              {tab !== 'Optimize' && tab !== 'Agent' && <div className="text-ink-2 text-[12px]">{tab} panel</div>}
+              {tab === 'Scores' && <ScoresPanel />}
+              {tab === 'Evidence' && <EvidencePanel />}
             </ErrorBoundary>
           </div>
         </aside>

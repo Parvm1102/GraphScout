@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Bar, BarChart, CartesianGrid, Cell, LabelList, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import PitchCanvas, { type PitchPlayer } from './PitchCanvas'
 import Ticker from './Ticker'
 import { BasisBadge, TierBadge } from './Badge'
@@ -129,48 +129,40 @@ function ClosingFrame({ final }: { final: NonNullable<ReturnType<typeof useStore
   const champ = final.champion
   const eq = final.greedy.equal_budget
   const bars = [
-    { name: `Evolved · ${champ.committed} commitments`, dC: champ.verified.dC_mean, std: champ.verified.dC_std, fill: AMBER },
+    { name: `Evolved (GA) · ${champ.committed} commitments`, dC: champ.verified.dC_mean, std: champ.verified.dC_std, fill: AMBER },
     { name: `Greedy · ${eq.genes.length} commitments`, dC: eq.dC_mean, std: eq.dC_std, fill: 'rgba(255,255,255,0.35)' },
   ]
+  const scale = Math.max(0.1, ...bars.map((b) => Math.abs(b.dC) + b.std))
   const abl = final.ablation.slice().sort((a, b) => a.marginal_dC - b.marginal_dC)
+  const ablScale = Math.max(0.1, ...abl.map((a) => Math.abs(a.marginal_dC)))
   const same = Math.abs(champ.verified.dC_mean - eq.dC_mean) < 0.05
   return (
     <>
       <div className="grid gap-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
-        <div className="rounded-lg p-2.5" style={{ background: 'rgba(255,255,255,0.03)' }}>
+        <div className="rounded-lg p-2.5 flex flex-col gap-2" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <div className="panel-title flex items-center gap-1.5 flex-wrap">Evolved vs greedy · equal budget <TierBadge tier={champ.verified.tier} /></div>
-          <div style={{ height: 120 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={bars} layout="vertical" margin={{ top: 6, right: 56, bottom: 0, left: 0 }}>
-                <XAxis type="number" hide domain={[Math.min(0, ...bars.map((b) => b.dC - b.std)) * 1.05, 0]} />
-                <YAxis type="category" dataKey="name" width={150} tick={{ fill: '#C7D4CC', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Bar dataKey="dC" radius={[0, 4, 4, 0]} isAnimationActive animationDuration={700} barSize={18}>
-                  {bars.map((b) => <Cell key={b.name} fill={b.fill} />)}
-                  <LabelList dataKey="dC" position="right" formatter={(v: unknown) => `${Number(v).toFixed(1)}%`} style={{ fill: '#E7EEE9', fontSize: 11, fontWeight: 600 }} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="text-[11px] text-ink-3 num">
-            evolved <span className="text-ink">{champ.verified.dC_mean.toFixed(1)}% ± {champ.verified.dC_std.toFixed(1)}</span> · greedy <span className="text-ink">{eq.dC_mean.toFixed(1)}% ± {eq.dC_std.toFixed(1)}</span>
-            {same ? ' · the GA matched greedy on this matchup (no better 4-gene plan in the pool); reported as such.' : ''}
-          </div>
+          {bars.map((b) => (
+            <div key={b.name} className="flex flex-col gap-1">
+              <div className="flex justify-between text-[11px]"><span className="text-ink-2">{b.name}</span><span className="num font-semibold" style={{ color: b.fill === AMBER ? AMBER : '#E7EEE9' }}><Ticker value={b.dC} format={(v) => `${v.toFixed(1)}%`} /> <span className="text-ink-3 font-normal">± {b.std.toFixed(1)}</span></span></div>
+              <div className="relative h-[10px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                <motion.div className="h-full rounded-full" style={{ background: b.fill }} initial={{ width: 0 }} animate={{ width: `${(Math.abs(b.dC) / scale) * 100}%` }} transition={{ type: 'spring', stiffness: 80, damping: 20 }} />
+                <div className="absolute top-0 h-full" style={{ left: `${(Math.max(0, Math.abs(b.dC) - b.std) / scale) * 100}%`, width: `${((2 * b.std) / scale) * 100}%`, borderLeft: '1px solid rgba(255,255,255,0.5)', borderRight: '1px solid rgba(255,255,255,0.5)' }} />
+              </div>
+            </div>
+          ))}
+          <div className="text-[11px] text-ink-3">{same ? 'The GA matched greedy on this matchup: no better 4-gene plan exists in the pool, so it is reported as a tie, never inflated.' : 'Bars show mean ΔC over the matches; ticks mark ±1 std.'}</div>
         </div>
         <div className="rounded-lg p-2.5" style={{ background: 'rgba(255,255,255,0.03)' }}>
           <div className="panel-title">Gene ablation · marginal ΔC when each gene is removed</div>
-          <div className="flex flex-col gap-1.5 mt-2">
-            {abl.map((a) => {
-              const w = Math.min(100, (Math.abs(a.marginal_dC) / Math.max(0.1, Math.abs(abl[0].marginal_dC))) * 100)
-              return (
-                <div key={a.cell} className="flex items-center gap-2 text-[11px]" onMouseEnter={() => setHover(geneRefs(a.gene))} onMouseLeave={() => setHover([])}>
-                  <span className="w-[150px] truncate" title={geneLabel(a.gene, false)}>{geneLabel(a.gene)}</span>
-                  <div className="flex-1 h-[7px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                    <motion.div className="h-full rounded-full" style={{ background: isCut(a.gene) ? CUT_RED : AMBER }} initial={{ width: 0 }} animate={{ width: `${w}%` }} transition={{ type: 'spring', stiffness: 80, damping: 20 }} />
-                  </div>
-                  <span className="num w-[84px] text-right"><Ticker value={a.marginal_dC} format={(v) => `${v.toFixed(2)}%`} /> <span className="text-ink-3">· {a.dC_without.toFixed(1)} w/o</span></span>
+          <div className="flex flex-col gap-2 mt-2">
+            {abl.map((a) => (
+              <div key={a.cell} className="flex flex-col gap-1 text-[11px]" onMouseEnter={() => setHover(geneRefs(a.gene))} onMouseLeave={() => setHover([])}>
+                <div className="flex justify-between gap-2"><span className="truncate" title={geneLabel(a.gene, false)}>{geneLabel(a.gene)}</span><span className="num shrink-0"><Ticker value={a.marginal_dC} format={(v) => `${v.toFixed(2)}%`} /> <span className="text-ink-3">· {a.dC_without.toFixed(1)}% without</span></span></div>
+                <div className="h-[7px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <motion.div className="h-full rounded-full" style={{ background: isCut(a.gene) ? CUT_RED : AMBER }} initial={{ width: 0 }} animate={{ width: `${(Math.abs(a.marginal_dC) / ablScale) * 100}%` }} transition={{ type: 'spring', stiffness: 80, damping: 20 }} />
                 </div>
-              )
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -178,7 +170,7 @@ function ClosingFrame({ final }: { final: NonNullable<ReturnType<typeof useStore
         <span>run <span className="text-ink">{final.run_id}</span></span>
         <span>plan <span className="text-ink">{final.plan_id}</span></span>
         <span><span className="text-ink">{final.evaluations}</span> evaluations · <span className="text-ink">{final.seconds.toFixed(1)}</span> s</span>
-        <span>verified over <span className="text-ink">{champ.verified.per_match.length}</span> matches (Tier {champ.verified.tier}, tier B {champ.tier_b_dC_mean.toFixed(1)}%)</span>
+        <span>verified over <span className="text-ink">{champ.verified.per_match.length}</span> matches (Tier {champ.verified.tier}; tier B {champ.tier_b_dC_mean.toFixed(1)}%)</span>
       </div>
     </>
   )
