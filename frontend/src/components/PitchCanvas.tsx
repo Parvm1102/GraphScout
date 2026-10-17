@@ -177,6 +177,10 @@ export default function PitchCanvas({
                 >
                   <title>{`${byId.get(d.e.src)?.name} -> ${byId.get(d.e.dst)?.name}: ${d.e.completed} of ${d.e.count} completed, ${d.e.progressive} progressive${isEst ? ' (estimated)' : ''}`}</title>
                 </motion.path>
+                {onEdgeClick && (
+                  <motion.path initial={false} animate={{ d: d.d }} transition={netTr(d.i)} stroke="transparent" strokeWidth={1.6} fill="none"
+                    style={{ cursor: 'pointer' }} onClick={() => onEdgeClick(d.e.src, d.e.dst)} />
+                )}
                 <motion.path
                   initial={{ d: d.arrow, fill: d.color }}
                   animate={{ d: d.arrow, fill: isCutLane ? CUT_RED : d.color }}

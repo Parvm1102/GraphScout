@@ -20,6 +20,13 @@ export interface ChatMessage {
   streaming?: boolean
 }
 
+export interface SimSel {
+  mode: 'suppress' | 'cut_lane'
+  target: number | null
+  presser: number | null
+  edge: { src: number; dst: number } | null
+}
+
 export interface OptimizeState {
   status: 'idle' | 'running' | 'done' | 'error'
   start: OptStart | null
@@ -47,6 +54,8 @@ interface State {
   simResult: SimulateResponse | null
   simLoading: boolean
   simError: string | null
+  simSel: SimSel
+  simView: 'before' | 'after'
   optimize: OptimizeState
   chat: { messages: ChatMessage[]; streaming: boolean }
   highlights: Set<string>
@@ -61,6 +70,8 @@ interface State {
   setWeights: (w: Weights) => Promise<void>
   runSimulate: (interventions: Intervention[]) => Promise<void>
   clearSim: () => void
+  setSimSel: (p: Partial<SimSel>) => void
+  setSimView: (v: 'before' | 'after') => void
   runOptimize: (method?: 'ga' | 'greedy') => Promise<void>
   loadOptimizeLast: () => Promise<void>
   sendChat: (question: string) => Promise<void>
@@ -90,6 +101,8 @@ export const useStore = create<State>()((set, get) => ({
   simResult: null,
   simLoading: false,
   simError: null,
+  simSel: { mode: 'suppress', target: null, presser: null, edge: null },
+  simView: 'after',
   optimize: { status: 'idle', start: null, greedy: null, generations: [], final: null, error: null, fromCache: false },
   chat: { messages: [], streaming: false },
   highlights: new Set(),
@@ -118,7 +131,7 @@ export const useStore = create<State>()((set, get) => ({
     const { matches } = get()
     if (!matches || team === get().team) return
     const last = lastMatchOf(matches, team)
-    set({ team, selectedMatch: last, simResult: null, networkAfter: null, simPlan: null, simError: null, profile: null })
+    set({ team, selectedMatch: last, simResult: null, networkAfter: null, simPlan: null, simError: null, profile: null, simSel: { mode: 'suppress', target: null, presser: null, edge: null } })
     await Promise.all([
       get().loadNetwork(),
       api.profile(team).then((profile) => set({ profile })).catch(() => undefined),
@@ -177,15 +190,17 @@ export const useStore = create<State>()((set, get) => ({
     try {
       const res = await api.simulate({ team, interventions })
       const pm = res.per_match.find((p) => p.match_id === selectedMatch)
-      set({ simResult: res, simLoading: false, networkAfter: pm?.network_after ?? null, simPlan: res.plan })
+      set({ simResult: res, simLoading: false, networkAfter: pm?.network_after ?? null, simPlan: res.plan, simView: 'after' })
     } catch (e) {
       set({ simLoading: false, simError: (e as Error).message })
     }
   },
 
   clearSim() {
-    set({ simResult: null, networkAfter: null, simPlan: null, simError: null })
+    set({ simResult: null, networkAfter: null, simPlan: null, simError: null, simView: 'after' })
   },
+  setSimSel(p) { set((st) => ({ simSel: { ...st.simSel, ...p } })) },
+  setSimView(v) { set({ simView: v }) },
 
   async runOptimize(method = 'ga') {
     const { our, their } = get()

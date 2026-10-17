@@ -54,6 +54,12 @@ one query that serves both the original and the clone (`coalesce(e.sim_count, e.
   are cached back onto the nodes (`p.pr_share`, `p.bt_share`, `p.prog_share`).
 - **Lineage as a graph.** Open the FalkorDB Browser at http://localhost:3000, select `catalog`, run
   `MATCH (p:Plan)-[r:EVOLVED_FROM]->(q:Plan) RETURN p, r, q` to see the evolution chain of the last GA run.
+- **Browser screenshots.** The `catalog` graph (Team, Match, PlayerRef; PLAYED and APPEARED_IN edges) and the GA
+  lineage chain (`MATCH p=()-[:EVOLVED_FROM]-() RETURN p`: 69 Plan nodes, 66 edges after three optimizer runs):
+
+  ![catalog in FalkorDB Browser](docs/falkordb_catalog.png)
+  ![GA lineage in FalkorDB Browser](docs/falkordb_lineage.png)
+
 - **Fallback policy** (brief §2.5): what FalkorDB lacks — max-flow with super-source/sink and edge-disjoint paths —
   is computed in networkx from a single edge-list pull, with FalkorDB as the source of truth. Max-flow is networkx in
   *both* simulation tiers so the two cannot drift.
