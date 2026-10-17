@@ -21,7 +21,7 @@ page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
 page.on('pageerror', (e) => errors.push(String(e)))
 await page.goto(`http://localhost:5173${path}`, { waitUntil: 'networkidle' })
 await page.waitForSelector('svg[role="img"] circle', { timeout: 30000 }).catch(() => {})
-for (const step of args.filter((a) => a.startsWith('--click=') || a.startsWith('--fill=') || a.startsWith('--waitfor=') || a.startsWith('--hover=') || a.startsWith('--press='))) {
+for (const step of args.filter((a) => /^--(click|fill|waitfor|hover|press|scroll)=/.test(a))) {
   const [kind, rest] = [step.slice(2, step.indexOf('=')), step.slice(step.indexOf('=') + 1)]
   const [sel, extra] = rest.split('::')
   if (kind === 'click') {
@@ -34,6 +34,9 @@ for (const step of args.filter((a) => a.startsWith('--click=') || a.startsWith('
     await page.fill(sel, extra ?? '')
   } else if (kind === 'press') {
     await page.press(sel, extra ?? 'Enter')
+  } else if (kind === 'scroll') {
+    await page.evaluate((px) => window.scrollTo({ top: px, behavior: 'instant' }), Number(sel))
+    await page.waitForTimeout(Number(extra ?? 900))
   } else if (kind === 'waitfor') {
     await page.waitForSelector(sel, { timeout: Number(extra ?? 60000) }).catch((e) => errors.push(`waitfor failed ${sel}: ${e.message}`))
   }
