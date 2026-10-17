@@ -60,3 +60,24 @@ over 7 Spain matches (Tier A == Tier B). Consistency test green. The GA matched 
 Deviation/fix: reroutes now land only on lanes with >=1 observed completed pass (an attempted-only lane could
 otherwise gain a completed pass -> new flow path -> ΔC>0 artefacts). Score-ablation chart written:
 eval/score_ablation_in_sample.png (top-S_p -9.1 vs median -3.6, top more damaging in 9 of 14) and held-out variant.
+
+## Phase 5 — Agent — 2026-10-17 20:35 IST
+Shipped: `app/agent/tools.py` (10 tools, every result carries refs: list_matches, team_profile, player_scores,
+decompose_influence, pressure_profile, empirical_window, simulate, optimize, eval_summary, save_plan),
+`app/agent/loop.py` (official `anthropic` SDK, `claude-sonnet-5-5`, manual streaming tool-use loop, prompt-cached
+system prompt, hard LLM_BUDGET=15 enforced by a counter that aborts loudly, strict parse of the final fenced JSON claims
+block with refs filtered to those returned by tools this turn, modeled/empirical labelling, calibrated-claim rules in
+the system prompt), `scripts/chat.py`. No temperature / forced tool_choice (both 400 on this model).
+Acceptance: BLOCKED on a credential — the key in .env (prefix `sk-ant-usr…`) is rejected by the API with 401
+"invalid x-api-key"; a standard key starts with `sk-ant-api03-`. The loop reloads .env per question, so pasting a valid
+key into .env is enough (no restart). Everything else proceeds; re-run `python scripts/chat.py "How do we beat Spain?"`.
+
+## Phase 6 — API — 2026-10-17 20:40 IST
+Shipped: `app/api/main.py` (FastAPI, CORS *, no auth, :8000, routes under /api): GET matches, network/{id}?team&windows,
+scores/{team}?w_*, profile/{team}, player/{id}, ablation, eval, optimize/last; POST simulate; POST optimize (SSE: start,
+greedy, one generation event per generation, final = Tier-A-verified champion + greedy comparison + gene ablations; GA
+runs in a worker thread feeding an asyncio queue); POST chat (SSE tokens + tool events + claims JSON). Startup sweeps
+stale sim_* clones. `backend/run_api.sh`.
+Acceptance: curl health/matches/network/scores/simulate/player all return correct shapes (e.g. Spain final 0-30':
+M=30 V=38 D=11; Rice marks Rodri -> modeled ΔC -1.4% +-0.7 over 7 matches, empirical ΔC -7.6% from Rodri's real
+absence windows) (PASS). Frontend build (Phase 7) delegated to a subagent against this contract.
