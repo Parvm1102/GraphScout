@@ -256,6 +256,13 @@ FalkorDB Cloud; the API goes to Render; the static frontend goes to Vercel.
    `index.html` so `/` (landing) and `/app` both load. SSE streams (optimize, chat) go straight from the browser to
    Render, which keeps them unbuffered.
 
+### Keeping the free Render service awake
+
+`.github/workflows/keepalive.yml` pings `/api/health` every 10 minutes from GitHub Actions (enable Actions on the
+repo; the workflow also has a manual "Run workflow" button). For extra safety add a free external monitor such as
+cron-job.org or UptimeRobot on the same URL at a 5-minute interval. If the service does sleep, the app shows a
+"waking the analysis server" notice while its own health probe brings it back, instead of an empty pitch.
+
 ## Repository map
 
 ```

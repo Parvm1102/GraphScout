@@ -1,0 +1,19 @@
+# Keeps the free Render service awake (it sleeps after 15 idle minutes) by pinging /api/health every 10 minutes.
+# GitHub cron can lag a few minutes under load, so 10 min leaves margin under the 15-min threshold.
+# Render's free plan allows 750 instance-hours per month, enough for one always-on service.
+name: keep-render-awake
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping API health
+        run: |
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 https://graph-scout-api.onrender.com/api/health) && [ "$code" = "200" ] && echo "awake ($code)" && exit 0
+            echo "attempt $i -> $code; retrying"; sleep 20
+          done
+          exit 1

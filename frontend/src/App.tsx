@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import ColdStartNotice from './components/ColdStartNotice'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import WindowBrush from './components/WindowBrush'
@@ -53,6 +54,7 @@ export default function App() {
   return (
     <div className="h-screen flex flex-col" style={{ background: '#07120B' }}>
       <Header />
+      <ColdStartNotice />
       {error && <div className="px-4 py-1.5 text-[12px]" style={{ background: 'rgba(239,68,68,0.12)', color: '#FCA5A5' }}>{error}</div>}
       <main className="flex-1 min-h-0 grid gap-3 p-3" style={{ gridTemplateColumns: 'minmax(0, 7fr) minmax(400px, 5fr)' }}>
         <section className="flex flex-col gap-3 min-w-0 min-h-0 overflow-y-auto scroll-thin pr-1">
